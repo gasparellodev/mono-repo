@@ -52,7 +52,7 @@ export function SignUpFirstStep() {
   return (
     <Flex flex={1}>
       <VStack flex={1}>
-        <HeaderAuthPage title="Faca seu cadastro" subTitle="Comecar" />
+        <HeaderAuthPage title="Faça seu cadastro" subTitle="Começar" />
 
         <KeyboardAwareScrollView extraScrollHeight={50}>
           <VStack style={{ paddingHorizontal: 24, paddingTop: 16 }} flex={1}>

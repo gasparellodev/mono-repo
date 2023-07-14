@@ -6,11 +6,13 @@ import { CreateUserContextProvider } from "@contexts/CreateUserContext";
 import { SignUpFirstStep } from "@screens/SignUp/SignUpFirstStep";
 import { SignUpSecondStep } from "@screens/SignUp/SignUpSecondStep";
 import { SignUpThirdStep } from "@screens/SignUp/SignUpThirdStep";
+import { HomeClient } from "@screens/Home/HomeClient";
 
 type SignUpStackRoutes = {
   signUpFirstStep: undefined;
   signUpSecondStep: undefined;
   signUpThirdStep: undefined;
+  homeClient: undefined;
 };
 
 export interface SignUpStackRoutesProps
@@ -25,6 +27,7 @@ export function SignUpStack() {
         <Screen name="signUpFirstStep" component={SignUpFirstStep} />
         <Screen name="signUpSecondStep" component={SignUpSecondStep} />
         <Screen name="signUpThirdStep" component={SignUpThirdStep} />
+        <Screen name="homeClient" component={HomeClient} />
       </Navigator>
     </CreateUserContextProvider>
   );

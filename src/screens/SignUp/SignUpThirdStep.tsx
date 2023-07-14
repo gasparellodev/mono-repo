@@ -11,13 +11,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpThirdStepSchema } from "@screens/schemas/sign-up-third-step.schema";
 import { CreateUserDTO } from "../../dtos/CreateUserDTO";
 import { toast } from "@backpackapp-io/react-native-toast";
+import { SignUpStackRoutesProps } from "@routes/sign-up-stack.routes";
+import { useNavigation } from "@react-navigation/native";
 
 type FormDataProps = {
   role: Role;
 };
 export function SignUpThirdStep() {
   const [loading, setLoading] = useState(false);
-
+  const navigation = useNavigation<SignUpStackRoutesProps>();
   const { setCreateUserData, createUserData } = useCreateUser();
 
   const PRE_SELECTED_RADIO = Role.Player;
@@ -39,6 +41,8 @@ export function SignUpThirdStep() {
       };
       return updatedData;
     });
+    navigation.navigate("homeClient");
+
   }
 
   useEffect(() => {
