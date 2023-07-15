@@ -15,6 +15,7 @@ import { MyArenaCourtRegister } from "@screens/MyArena/MyArenaCourtRegister";
 import { MyArenaRegisterAddress } from "@screens/MyArena/MyArenaRegisterAddress";
 import { MyArenaRegisterStack } from "@routes/my-arena-register-stack.routes";
 import { MyArenaConfigs } from "@screens/MyArena/MyArenaConfigs";
+import { PublicArena } from "@screens/PublicArena/PublicArena";
 
 type AppRoutes = {
   home: undefined;
@@ -23,6 +24,13 @@ type AppRoutes = {
   myArenaRegisterStack: undefined;
   myArenaCourtRegister: undefined;
   myArenaConfigs: undefined;
+  profile: undefined;
+  publicArena: {
+    arena: {
+      id: string;
+      name: string;
+    }
+  };
 };
 
 export type AppNavigationRoutesProps = BottomTabNavigationProp<AppRoutes>;
@@ -134,11 +142,27 @@ export function AppRoutes() {
         name="myArena"
         component={MyArena}
         options={{
-          tabBarLabel: "Minha Arena",
+          tabBarLabel: "Agenda",
           tabBarIcon: ({ color, size }) => {
             return (
               <MaterialIcons
-                name="store-mall-directory"
+                name="calendar-today"
+                size={size}
+                color={color}
+              />
+            );
+          },
+        }}
+      />
+      <Screen
+        name="profile"
+        component={MyArena}
+        options={{
+          tabBarLabel: "Perfil",
+          tabBarIcon: ({ color, size }) => {
+            return (
+              <MaterialIcons
+                name="person"
                 size={size}
                 color={color}
               />
@@ -168,6 +192,9 @@ export function AppRoutes() {
           tabBarButton: () => null,
         }}
       />
+      <Screen name="publicArena" component={PublicArena} options={{
+          tabBarButton: () => null,
+        }} />
     </Navigator>
   );
 }

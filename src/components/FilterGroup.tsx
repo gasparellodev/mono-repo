@@ -7,6 +7,7 @@ type Props = {
   selectChip: (prevState: string) => void;
   style?: StyleProp<ViewStyle>;
   styleChip?: ViewStyle;
+  contentContainerStyle?: ViewStyle;
 };
 export function FilterGroup({
   data,
@@ -14,10 +15,12 @@ export function FilterGroup({
   selectChip,
   style,
   styleChip,
+  contentContainerStyle
 }: Props) {
   return (
     <FlatList
       style={style}
+      contentContainerStyle={contentContainerStyle}
       data={data}
       keyExtractor={(item) => item.key}
       renderItem={({ item }) => (
