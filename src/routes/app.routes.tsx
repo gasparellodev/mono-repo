@@ -16,6 +16,7 @@ import { MyArenaRegisterAddress } from "@screens/MyArena/MyArenaRegisterAddress"
 import { MyArenaRegisterStack } from "@routes/my-arena-register-stack.routes";
 import { MyArenaConfigs } from "@screens/MyArena/MyArenaConfigs";
 import { PublicArena } from "@screens/PublicArena/PublicArena";
+import { Notifications } from "@screens/Notifications/Notifications";
 
 type AppRoutes = {
   home: undefined;
@@ -31,6 +32,7 @@ type AppRoutes = {
       name: string;
     }
   };
+  notifications: undefined
 };
 
 export type AppNavigationRoutesProps = BottomTabNavigationProp<AppRoutes>;
@@ -80,8 +82,8 @@ export function AppRoutes() {
             return options.tabBarLabel !== undefined
               ? options.tabBarLabel.toString()
               : options.title !== undefined
-              ? options.title
-              : undefined;
+                ? options.title
+                : undefined;
           }}
           renderTouchable={({
             route,
@@ -193,8 +195,11 @@ export function AppRoutes() {
         }}
       />
       <Screen name="publicArena" component={PublicArena} options={{
-          tabBarButton: () => null,
-        }} />
+        tabBarButton: () => null,
+      }} />
+      <Screen name="notifications" component={Notifications} options={{
+        tabBarButton: () => null,
+      }} />
     </Navigator>
   );
 }

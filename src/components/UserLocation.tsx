@@ -3,9 +3,17 @@ import { Text, useTheme } from "react-native-paper";
 import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
 import { TouchableOpacity, View } from "react-native";
+import { AppNavigationRoutesProps } from "@routes/app.routes";
+import { useNavigation } from "@react-navigation/native";
 
 export function UserLocation() {
   const { colors } = useTheme();
+  const navigation = useNavigation<AppNavigationRoutesProps>();
+
+  function gotToNotifications() {
+    navigation.navigate('notifications');
+  }
+
   return (
     <Flex
       direction="row"
@@ -30,9 +38,11 @@ export function UserLocation() {
         </TouchableOpacity>
       </View>
 
-      <View style={{ marginLeft: 16, marginRight: 16 }}>
-        <MaterialIcons name="notifications" size={25} color={colors.primary} />
-      </View>
+      <TouchableOpacity onPress={() => gotToNotifications()}>
+        <View style={{ marginLeft: 16, marginRight: 16 }}>
+          <MaterialIcons name="notifications" size={25} color={colors.primary} />
+        </View>
+      </TouchableOpacity>
     </Flex>
   );
 }

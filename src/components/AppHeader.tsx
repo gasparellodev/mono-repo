@@ -16,7 +16,7 @@ export function AppHeader({ title }: Props) {
   return (
     <Flex
       direction="row"
-      backgroundColor={colors.surfaceContainerLowest}
+      backgroundColor={colors.background}
       style={{
         paddingTop: 16,
         paddingBottom: 16,
