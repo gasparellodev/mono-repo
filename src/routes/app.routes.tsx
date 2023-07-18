@@ -20,11 +20,15 @@ import { Notifications } from "@screens/Notifications/Notifications";
 import { ScheduleArena } from "@screens/ScheduleArena/ScheduleArena";
 import { Profile } from "@screens/Profile/Profile";
 import { MySchedule } from "@screens/MySchedule/MySchedule";
+import { EditProfile } from "@screens/EditProfile/EditProfile";
+import { Password } from "@screens/Password/Password";
 
 export type AppRoutes = {
   home: undefined;
   search: undefined;
   myArena: undefined;
+  settingProfile: undefined;
+  changePassword: undefined;
   mySchedule: undefined;
   myArenaRegisterStack: undefined;
   myArenaCourtRegister: undefined;
@@ -214,6 +218,12 @@ export function AppRoutes() {
         tabBarButton: () => null,
       }} />
       <Screen name="notifications" component={Notifications} options={{
+        tabBarButton: () => null,
+      }} />
+      <Screen name="settingProfile" component={EditProfile} options={{
+        tabBarButton: () => null,
+      }} />
+      <Screen name="changePassword" component={Password} options={{
         tabBarButton: () => null,
       }} />
     </Navigator>
