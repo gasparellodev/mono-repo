@@ -8,13 +8,8 @@ import { Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { PublicArenaTime } from "./PublicArenaTime";
 import { PublicArenaDay } from "./PublicArenaDay";
-import { AppNavigationRoutesProps } from "@routes/app.routes";
-
-interface PublicArenaProps {
-  id: number;
-  name: string;
-  description: string;
-}
+import { AppNavigationRoutesProps, AppRoutes } from "@routes/app.routes";
+import dayjs from 'dayjs';
 
 const availableTimes = Array.from({ length: 16 }).fill('').map((_, index) => {
   const names = ['Beach Tennis', 'Society', 'Basquete'];
@@ -23,67 +18,87 @@ const availableTimes = Array.from({ length: 16 }).fill('').map((_, index) => {
   return {
     id: time,
     time,
-    name: `Quadra ${index + 1}`,
-    description: `${names[Math.floor(Math.random() * names.length)]} ${index + 4}`,
-    price: `R$ ${Math.floor(Math.random() * 100) + 50},00`
+    place: `Quadra ${index + 1}`,
+    sport: `${names[Math.floor(Math.random() * names.length)]} ${index + 4}`,
+    price: Math.floor(Math.random() * 100) + 50,
   }
 });
 
-const days = [
-  { day: 1, weekDay: 'seg' },
-  { day: 2, weekDay: 'ter' },
-  { day: 3, weekDay: 'qua' },
-  { day: 4, weekDay: 'qui' },
-  { day: 5, weekDay: 'sex' },
-  { day: 6, weekDay: 'sab' },
-  { day: 7, weekDay: 'dom' },
-]
+function getUpcomingDays(baseDay: Date) {
+  const baseDate = dayjs(baseDay);
+
+  const upcomingDays = [];
+
+  for (let i = 3; i >= 1; i--) {
+    upcomingDays.push(baseDate.subtract(i, 'day').startOf('day').toDate());
+  }
+
+  upcomingDays.push(baseDate.startOf('day').toDate());
+
+  for (let i = 1; i <= 3; i++) {
+    upcomingDays.push(baseDate.add(i, 'day').startOf('day').toDate());
+  }
+
+  return upcomingDays;
+}
 
 export function PublicArena() {
   const route = useRoute();
-  const { id, name, description } = route.params as PublicArenaProps;
-
   const navigation = useNavigation<AppNavigationRoutesProps>();
+  const { arena } = route.params as AppRoutes['publicArena'];
+
+  const { colors } = useTheme();
+  const [selectedTimeId, setSelectedTimeId] = useState("13:00");
+
+  const [baseDay, setBaseDay] = useState(dayjs().startOf('day').toDate());
+  const [selectedDay, setSelectedDay] = useState(baseDay);
+  const upcomingDays = getUpcomingDays(baseDay);
+
+  function handleSubtractBaseDay() {
+    setBaseDay(dayjs(baseDay).subtract(7, 'day').toDate());
+  }
+
+  function handleAddBaseDay() {
+    setBaseDay(dayjs(baseDay).add(7, 'day').toDate());
+  }
 
   function gotToNotifications() {
     navigation.navigate('notifications');
   }
 
-
-  const { colors } = useTheme();
-  const [selectedTimeId, setSelectedTimeId] = useState("13:00");
-  const [selectedDayId, setSelectedDayId] = useState(5);
-
   return (
     <Flex flex={1} backgroundColor={colors.background}>
       <SafeAreaView>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', height: 56, paddingHorizontal: 16 }}>
-          <Text style={{ color: colors.inverseSurface, fontFamily: 'Poppins_700Bold' }}>Vila da praia</Text>
-          <TouchableOpacity onPress={() => gotToNotifications()}>
-            <View style={{ marginLeft: 16, marginRight: 16 }}>
+        <Flex direction="row" justify="space-between" align="center" paddingX={16} height={56}>
+          <Text style={{ color: colors.inverseSurface, fontFamily: 'Poppins_700Bold' }}>{arena.name}</Text>
+          <TouchableOpacity onPress={gotToNotifications}>
+            <View style={{ marginHorizontal: 16 }}>
               <MaterialIcons name="notifications" size={25} color={colors.primary} />
             </View>
           </TouchableOpacity>
-        </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', height: 60, paddingHorizontal: 16, backgroundColor: colors.tertiaryContainer }}>
-          <TouchableOpacity>
-            <MaterialIcons name="chevron-left" size={24} color={colors.primary} />
+        </Flex>
+        <Flex direction="row" justify="space-between" align="center" height={60} paddingX={16} backgroundColor={colors.tertiaryContainer}>
+          <TouchableOpacity onPress={handleSubtractBaseDay} disabled={dayjs(baseDay).isBefore()}>
+            <MaterialIcons name="chevron-left" size={24}  color={colors.primary} />
           </TouchableOpacity>
-          <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'space-around', alignItems: 'center' }}>
+          <Flex direction="row" flex={1} justify="space-around" align="center" backgroundColor="transparent">
             {
-              days.map(({ day, weekDay }) => (
-                <PublicArenaDay onSelect={setSelectedDayId} weekDay={weekDay} day={day} isActive={day === selectedDayId} isDisabled={day < 4} />
+              upcomingDays.map((day) => (
+                <PublicArenaDay onSelect={setSelectedDay} day={day} isActive={day.toISOString() === selectedDay.toISOString()} isDisabled={dayjs(day).add(1, 'day').isBefore()} key={day.toISOString()} />
               ))
             }
-          </View>
-          <TouchableOpacity>
-            <MaterialIcons name="chevron-right" size={24} color={colors.primary} />
+          </Flex>
+          <TouchableOpacity onPress={handleAddBaseDay}>
+            <MaterialIcons name="chevron-right" size={24}  color={colors.primary} />
           </TouchableOpacity>
-        </View>
+        </Flex>
         <ScrollView>
           {
             availableTimes.map(({ id, ...timeProps }) => (
-              <PublicArenaTime isSelected={id === selectedTimeId} key={id} details={timeProps} onSelect={setSelectedTimeId} />
+              <PublicArenaTime isSelected={id === selectedTimeId} key={id} details={{
+                ...timeProps,
+                date: selectedDay,
+              }} onSelect={setSelectedTimeId} />
             ))
           }
         </ScrollView>
