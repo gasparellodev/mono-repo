@@ -18,11 +18,14 @@ import { MyArenaConfigs } from "@screens/MyArena/MyArenaConfigs";
 import { PublicArena } from "@screens/PublicArena/PublicArena";
 import { Notifications } from "@screens/Notifications/Notifications";
 import { ScheduleArena } from "@screens/ScheduleArena/ScheduleArena";
+import { Profile } from "@screens/Profile/Profile";
+import { MySchedule } from "@screens/MySchedule/MySchedule";
 
 export type AppRoutes = {
   home: undefined;
   search: undefined;
   myArena: undefined;
+  mySchedule: undefined;
   myArenaRegisterStack: undefined;
   myArenaCourtRegister: undefined;
   myArenaConfigs: undefined;
@@ -151,8 +154,8 @@ export function AppRoutes() {
         }}
       />
       <Screen
-        name="myArena"
-        component={MyArena}
+        name="mySchedule"
+        component={MySchedule}
         options={{
           tabBarLabel: "Agenda",
           tabBarIcon: ({ color, size }) => {
@@ -168,7 +171,7 @@ export function AppRoutes() {
       />
       <Screen
         name="profile"
-        component={MyArena}
+        component={Profile}
         options={{
           tabBarLabel: "Perfil",
           tabBarIcon: ({ color, size }) => {
