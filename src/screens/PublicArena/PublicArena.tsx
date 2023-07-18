@@ -1,6 +1,6 @@
 import { Flex } from "@components/Flex";
 import { MaterialIcons } from "@expo/vector-icons";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -8,6 +8,7 @@ import { Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { PublicArenaTime } from "./PublicArenaTime";
 import { PublicArenaDay } from "./PublicArenaDay";
+import { AppNavigationRoutesProps } from "@routes/app.routes";
 
 interface PublicArenaProps {
   id: number;
@@ -42,6 +43,13 @@ export function PublicArena() {
   const route = useRoute();
   const { id, name, description } = route.params as PublicArenaProps;
 
+  const navigation = useNavigation<AppNavigationRoutesProps>();
+
+  function gotToNotifications() {
+    navigation.navigate('notifications');
+  }
+
+
   const { colors } = useTheme();
   const [selectedTimeId, setSelectedTimeId] = useState("13:00");
   const [selectedDayId, setSelectedDayId] = useState(5);
@@ -51,13 +59,15 @@ export function PublicArena() {
       <SafeAreaView>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', height: 56, paddingHorizontal: 16 }}>
           <Text style={{ color: colors.inverseSurface, fontFamily: 'Poppins_700Bold' }}>Vila da praia</Text>
-          <TouchableOpacity>
-            <MaterialIcons name="notifications" size={25} color={colors.inversePrimary} />
+          <TouchableOpacity onPress={() => gotToNotifications()}>
+            <View style={{ marginLeft: 16, marginRight: 16 }}>
+              <MaterialIcons name="notifications" size={25} color={colors.primary} />
+            </View>
           </TouchableOpacity>
         </View>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', height: 60, paddingHorizontal: 16, backgroundColor: colors.tertiaryContainer }}>
           <TouchableOpacity>
-            <MaterialIcons name="chevron-left" size={24}  color={colors.primary} />
+            <MaterialIcons name="chevron-left" size={24} color={colors.primary} />
           </TouchableOpacity>
           <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'space-around', alignItems: 'center' }}>
             {
@@ -67,7 +77,7 @@ export function PublicArena() {
             }
           </View>
           <TouchableOpacity>
-            <MaterialIcons name="chevron-right" size={24}  color={colors.primary} />
+            <MaterialIcons name="chevron-right" size={24} color={colors.primary} />
           </TouchableOpacity>
         </View>
         <ScrollView>

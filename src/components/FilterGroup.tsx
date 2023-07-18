@@ -1,5 +1,5 @@
 import { FlatList, StyleProp, ViewStyle } from "react-native";
-import { Chip } from "react-native-paper";
+import { Chip, useTheme } from "react-native-paper";
 
 type Props = {
   data: ArrayLike<{ label: string; icon?: string; key: string }>;
@@ -9,6 +9,9 @@ type Props = {
   styleChip?: ViewStyle;
   contentContainerStyle?: ViewStyle;
 };
+
+
+
 export function FilterGroup({
   data,
   selected,
@@ -17,6 +20,9 @@ export function FilterGroup({
   styleChip,
   contentContainerStyle
 }: Props) {
+
+  const { colors } = useTheme();
+
   return (
     <FlatList
       style={style}
@@ -25,7 +31,7 @@ export function FilterGroup({
       keyExtractor={(item) => item.key}
       renderItem={({ item }) => (
         <Chip
-          style={{ ...styleChip, marginRight: 4 }}
+          style={{ ...styleChip, marginRight: 4, backgroundColor: colors.backdrop, borderWidth: 1 }}
           onPress={() => selectChip(item.key)}
           selected={selected === item.key}
         >

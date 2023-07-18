@@ -9,15 +9,17 @@ type AvailableTimeCardProps = {
   id: string;
   name: string;
   image: string;
+  width: any,
+  height: any
 }
 
-export function AvailableTimeCard({ id, name, image }: AvailableTimeCardProps) {
+export function AvailableTimeCard({ id, name, image, width, height }: AvailableTimeCardProps) {
   const { colors } = useAppTheme();
   const navigation = useNavigation<AppNavigationRoutesProps>();
 
   function handleSelectHour() {
-        navigation.navigate('publicArena', { arena: { id, name } });
-    }
+    navigation.navigate('publicArena', { arena: { id, name } });
+  }
 
   return (
     <TouchableOpacity onPress={handleSelectHour} activeOpacity={0.7}>
@@ -27,8 +29,8 @@ export function AvailableTimeCard({ id, name, image }: AvailableTimeCardProps) {
         style={{
           borderRadius: 10,
         }}
-        height={80}
-        width={200}
+        height={height}
+        width={width}
       >
         <Image
           source={{

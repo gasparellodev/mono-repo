@@ -58,7 +58,7 @@ export function Home() {
             data={availableTimes}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <AvailableTimeCard id={item.id} name={item.name} image={`https://ui-avatars.com/api/?name=${item.name}`} />
+              <AvailableTimeCard id={item.id} name={item.name} image={`https://ui-avatars.com/api/?name=${item.name}`} height={80} width={200}/>
             )}
             horizontal
             showsHorizontalScrollIndicator={false}
