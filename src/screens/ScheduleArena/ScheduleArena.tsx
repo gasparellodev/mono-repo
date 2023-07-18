@@ -160,7 +160,7 @@ export function ScheduleArena() {
                 {confirmedUsers.length > 1 ? "s" : ""}
               </Text>
               {confirmedUsers.map((user) => (
-                <ScheduleUser name={user.name} avatar_url={user.avatar_url} />
+                <ScheduleUser key={user.name} name={user.name} avatar_url={user.avatar_url} />
               ))}
             </>
           )}
