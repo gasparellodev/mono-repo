@@ -12,6 +12,8 @@ import { BodyMediumBold } from "@components/Text/BodyMediumBold";
 import { api } from "@services/api";
 import { useEffect, useState } from "react";
 import { ArenaResponse } from "../../interfaces/arena.response";
+import { SafeAreaView } from "react-native-safe-area-context";
+
 export function MyArena() {
   const [arena, setArena] = useState<ArenaResponse>({} as ArenaResponse);
   const navigation = useNavigation<AppNavigationRoutesProps>();
@@ -37,42 +39,44 @@ export function MyArena() {
 
   return (
     <Flex flex={1}>
-      <VStack flex={1}>
-        <AppHeader title="Minha arena" />
-        {arena ? (
-          <VStack style={{ paddingHorizontal: 24, marginTop: 32 }}>
-            <VStack height={300}>
-              <BodyMediumBold variant="bodyMediumBold">
-                {arena.name}
-              </BodyMediumBold>
-              <Image
-                source={defaultArenaImg}
-                style={{ height: "45%", width: "100%", borderRadius: 10 }}
-              />
-              <Button mode="outlined">Ver minhas quadras</Button>
-              <Button
-                mode="outlined"
-                onPress={() => navigation.navigate("myArenaConfigs")}
-              >
-                Configuração da arena
+      <SafeAreaView style={{ flex: 1 }}>
+        <VStack flex={1}>
+          <AppHeader title="Minha arena" />
+          {arena ? (
+            <VStack style={{ paddingHorizontal: 24, marginTop: 32 }}>
+              <VStack height={300}>
+                <BodyMediumBold variant="bodyMediumBold">
+                  {arena.name}
+                </BodyMediumBold>
+                <Image
+                  source={defaultArenaImg}
+                  style={{ height: "45%", width: "100%", borderRadius: 10 }}
+                />
+                <Button mode="outlined">Ver minhas quadras</Button>
+                <Button
+                  mode="outlined"
+                  onPress={() => navigation.navigate("myArenaConfigs")}
+                >
+                  Configuração da arena
+                </Button>
+              </VStack>
+            </VStack>
+          ) : (
+            <VStack style={{ paddingHorizontal: 24, marginTop: 52 }}>
+              <Flex align="center">
+                <Image
+                  source={myArenaPage}
+                  style={{ height: "70%", resizeMode: "contain" }}
+                />
+              </Flex>
+
+              <Button onPress={handleOpenMyArenaRegister}>
+                Cadastrar minha arena
               </Button>
             </VStack>
-          </VStack>
-        ) : (
-          <VStack style={{ paddingHorizontal: 24, marginTop: 52 }}>
-            <Flex align="center">
-              <Image
-                source={myArenaPage}
-                style={{ height: "70%", resizeMode: "contain" }}
-              />
-            </Flex>
-
-            <Button onPress={handleOpenMyArenaRegister}>
-              Cadastrar minha arena
-            </Button>
-          </VStack>
-        )}
-      </VStack>
+          )}
+        </VStack>
+      </SafeAreaView>
     </Flex>
   );
 }

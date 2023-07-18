@@ -8,6 +8,7 @@ import searchPageImage from "@assets/search-page.png";
 import { FlatList, Image } from "react-native";
 import { AvailableTimeCard } from "@components/AvailableTimeCard";
 import { useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export function Search() {
   const { colors } = useAppTheme();
@@ -27,46 +28,48 @@ export function Search() {
 
   return (
     <Flex flex={1}>
-      <VStack flex={1}>
-        <UserLocation />
-        <VStack
-          style={{
-            paddingHorizontal: 24,
-            paddingTop: 16,
-          }}
-        >
-          <Input defHeight={false} left={<TextInput.Icon icon="magnify" />} />
-          <Flex align="center">
-            {/* <Image
-              source={searchPageImage}
-              alt={ALT_SEARCH_PAGE_IMG}
-              style={{
-                width: 244,
-                resizeMode: "contain",
-              }}
-            /> */}
-            
-            <FlatList
-              contentContainerStyle={{ paddingHorizontal: 24, gap: 16 }}
-              data={availableTimes}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => (
-                <AvailableTimeCard id={item.id} name={item.name} image={`https://ui-avatars.com/api/?name=${item.name}`} height={80} width="100%" />
-              )}
-              style={{ width: '100%', }}
-              showsHorizontalScrollIndicator={false}
-            />
-          </Flex>
-          <Text
-            variant="bodyMediumBold"
+      <SafeAreaView style={{ flex: 1 }}>
+        <VStack flex={1}>
+          <UserLocation />
+          <VStack
             style={{
-              textAlign: "center",
+              paddingHorizontal: 24,
+              paddingTop: 16,
             }}
           >
-            Encontre sua arena favorita
-          </Text>
+            <Input defHeight={false} left={<TextInput.Icon icon="magnify" />} />
+            <Flex align="center">
+              {/* <Image
+                source={searchPageImage}
+                alt={ALT_SEARCH_PAGE_IMG}
+                style={{
+                  width: 244,
+                  resizeMode: "contain",
+                }}
+              /> */}
+              
+              <FlatList
+                contentContainerStyle={{ paddingHorizontal: 24, gap: 16 }}
+                data={availableTimes}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                  <AvailableTimeCard id={item.id} name={item.name} image={`https://ui-avatars.com/api/?name=${item.name}`} height={80} width="100%" />
+                )}
+                style={{ width: '100%', }}
+                showsHorizontalScrollIndicator={false}
+              />
+            </Flex>
+            <Text
+              variant="bodyMediumBold"
+              style={{
+                textAlign: "center",
+              }}
+            >
+              Encontre sua arena favorita
+            </Text>
+          </VStack>
         </VStack>
-      </VStack>
+      </SafeAreaView>
     </Flex>
   );
 }
