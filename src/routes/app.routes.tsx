@@ -17,8 +17,9 @@ import { MyArenaRegisterStack } from "@routes/my-arena-register-stack.routes";
 import { MyArenaConfigs } from "@screens/MyArena/MyArenaConfigs";
 import { PublicArena } from "@screens/PublicArena/PublicArena";
 import { Notifications } from "@screens/Notifications/Notifications";
+import { ScheduleArena } from "@screens/ScheduleArena/ScheduleArena";
 
-type AppRoutes = {
+export type AppRoutes = {
   home: undefined;
   search: undefined;
   myArena: undefined;
@@ -32,6 +33,15 @@ type AppRoutes = {
       name: string;
     }
   };
+  scheduleArena: {
+    arena: {
+      place: string;
+      sport: string;
+      date: string;
+      price: number;
+      time: string;
+    }
+  }
   notifications: undefined
 };
 
@@ -195,6 +205,9 @@ export function AppRoutes() {
         }}
       />
       <Screen name="publicArena" component={PublicArena} options={{
+        tabBarButton: () => null,
+      }} />
+      <Screen name="scheduleArena" component={ScheduleArena} options={{
         tabBarButton: () => null,
       }} />
       <Screen name="notifications" component={Notifications} options={{

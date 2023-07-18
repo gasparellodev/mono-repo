@@ -13,6 +13,10 @@ import {
   useFonts,
 } from "@expo-google-fonts/poppins";
 
+import dayjs from 'dayjs'
+import ptBR from 'dayjs/locale/pt-br';
+dayjs.locale(ptBR);
+
 import { ThemeProvider } from "./src/providers/ThemeProvider";
 import { Routes } from "@routes/index";
 import { Toasts } from "@backpackapp-io/react-native-toast";
