@@ -18,8 +18,8 @@ export function Profile() {
 
     const navigation = useNavigation<AppNavigationRoutesProps>();
 
-    function gotToPassword() {
-        navigation.navigate('changePassword');
+    function gotTo(route: any) {
+        navigation.navigate(route);
     }
 
     const handleSwitch = () => setIsEnable(!isEnable)
@@ -60,10 +60,10 @@ export function Profile() {
                     </View>
                 </View>
                 <View style={{ width: '100%', height: 'auto', justifyContent: 'center', alignItems: 'center', gap: 25 }}>
-                    <TouchableOpacity style={{ width: 260, height: 60, backgroundColor: colors.backdrop, borderRadius: 18, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <TouchableOpacity style={{ width: 260, height: 60, backgroundColor: colors.backdrop, borderRadius: 18, display: 'flex', alignItems: 'center', justifyContent: 'center' }} onPress={() => gotTo('settingProfile')}>
                         <Text style={{ textAlign: 'center', color: colors.primary, fontSize: 18, fontWeight: 'bold' }}>Editar Perfil</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ width: 260, height: 60, backgroundColor: colors.backdrop, borderRadius: 18, display: 'flex', alignItems: 'center', justifyContent: 'center' }} onPress={() => gotToPassword()}>
+                    <TouchableOpacity style={{ width: 260, height: 60, backgroundColor: colors.backdrop, borderRadius: 18, display: 'flex', alignItems: 'center', justifyContent: 'center' }} onPress={() => gotTo('changePassword')}>
                         <Text style={{ textAlign: 'center', color: colors.primary, fontSize: 18, fontWeight: 'bold' }}>Alterar senha</Text>
                     </TouchableOpacity>
                 </View>
