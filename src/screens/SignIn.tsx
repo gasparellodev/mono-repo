@@ -84,6 +84,7 @@ export function SignIn() {
                 />
               )}
               name="email"
+              defaultValue="alan.turing@gmail.com"
             />
 
             <Controller
@@ -101,6 +102,7 @@ export function SignIn() {
                 />
               )}
               name="password"
+              defaultValue="123456Ik!"
             />
 
             <Flex direction="row" align="center" justify="space-between">

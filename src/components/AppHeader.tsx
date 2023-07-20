@@ -12,14 +12,13 @@ type Props = {
   title: string;
   isChangePassword?: boolean;
 };
-export function AppHeader({ title, isChangePassword }: Props) {
+export function AppHeader({ title }: Props) {
   const { colors } = useAppTheme();
 
   const ALT_LOGO_WITHOU_NAME = "Logomarca do Eu Jogo App sem nome";
   const navigation = useNavigation<AppNavigationRoutesProps>();
 
   function gotToNotifications() {
-    if (isChangePassword) return navigation.navigate("profile");
     navigation.navigate("notifications");
   }
   return (

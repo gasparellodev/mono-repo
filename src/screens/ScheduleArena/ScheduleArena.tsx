@@ -1,14 +1,18 @@
+import { BackHeader } from "@components/BackHeader";
 import { Flex } from "@components/Flex";
 import { Button } from "@components/Forms/Button";
-import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { AppNavigationRoutesProps, AppRoutes } from "@routes/app.routes";
-import { formatCurrency } from "@utils/Formatters";
+import {
+  formatCurrency,
+  formatLongDate,
+  formatScheduleDate,
+} from "@utils/Formatters";
 import dayjs from "dayjs";
 import { useState } from "react";
-import { TouchableOpacity } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ScheduleDTO } from "src/dtos/ScheduleDTO";
 import { ScheduleStatus } from "./ScheduleStatus";
 import { ScheduleUser } from "./ScheduleUser";
 
@@ -17,28 +21,6 @@ export function ScheduleArena() {
   const navigation = useNavigation<AppNavigationRoutesProps>();
   const { arena } = route.params as AppRoutes["scheduleArena"];
   const { colors } = useTheme();
-
-  const date = dayjs(arena.date);
-  
-  function callToArena() {
-    console.log("LIGAR PARA A ARENA")
-  }
-
-  function howToGet() {
-    console.log("COMO CHEGAR")
-  }
-
-  function reserveTime() {
-    console.log("RESERVAR HORÁRIO")
-  }
-
-  function inviteFriend() {
-    console.log("CONVIDAR AMIGO")
-  }
-
-  function requestTimeChange() {
-    console.log("SOLICITAR TROCA DE HORÁRIO")
-  }
 
   const [confirmedUsers, setConfirmedUsers] = useState([
     {
@@ -50,9 +32,32 @@ export function ScheduleArena() {
       avatar_url: "https://github.com/diego3g.png",
     },
   ]);
-  const [currentStatus, setCurrentStatus] = useState<
-    "confirm" | "success" | "pending" | "cancelled"
-  >("cancelled");
+  const [currentStatus, setCurrentStatus] = useState<ScheduleDTO["status"]>(
+    arena.status || "confirm"
+  );
+
+  const date = dayjs(arena.date);
+
+  function callToArena() {
+    console.log("LIGAR PARA A ARENA");
+  }
+
+  function howToGet() {
+    console.log("COMO CHEGAR");
+  }
+
+  function reserveTime() {
+    navigation.navigate("mySchedule");
+  }
+
+  function inviteFriend() {
+    console.log("CONVIDAR AMIGO");
+  }
+
+  function requestTimeChange() {
+    console.log("SOLICITAR TROCA DE HORÁRIO");
+  }
+
   const statuses = {
     confirm: {
       color: colors.tertiaryContainer,
@@ -63,7 +68,7 @@ export function ScheduleArena() {
       primaryAction: reserveTime,
       secondaryAction: null,
     },
-    success: {
+    reserved: {
       color: colors.primaryContainer,
       title: "Reservado!",
       subtitle: "Convide seus amigos para jogar",
@@ -94,48 +99,19 @@ export function ScheduleArena() {
 
   const statusData = statuses[currentStatus];
 
-  function handleGoBack() {
-    navigation.goBack();
-  }
-
   return (
     <Flex flex={1} backgroundColor={colors.background}>
       <SafeAreaView style={{ flex: 1 }}>
-        <TouchableOpacity onPress={handleGoBack}>
-          <Flex
-            direction="row"
-            align="center"
-            gap={8}
-            paddingX={16}
-            height={56}
-          >
-            <MaterialIcons
-              name="chevron-left"
-              size={25}
-              color={colors.inverseSurface}
-            />
-            <Text
-              style={{
-                color: colors.inverseSurface,
-                fontFamily: "Poppins_700Bold",
-              }}
-            >
-              Voltar
-            </Text>
-          </Flex>
-        </TouchableOpacity>
+        <BackHeader />
         <ScheduleStatus {...statusData} />
         <Flex gap={4} paddingX={16} paddingY={24}>
           {currentStatus === "confirm" ? (
             <>
               <Text style={{ fontSize: 16 }}>
-                {date.format("dddd")} / {arena.time} às{" "}
-                {dayjs(`2010-10-10T${arena.time}`)
-                  .add(1, "hour")
-                  .format("HH:mm")}
+                {formatScheduleDate(date, arena.time)}
               </Text>
               <Text style={{ fontSize: 16, textTransform: "capitalize" }}>
-                {date.format("DD MMMM YYYY")}
+                {formatLongDate(date)}
               </Text>
               <Text
                 style={{
@@ -160,15 +136,23 @@ export function ScheduleArena() {
                 {confirmedUsers.length > 1 ? "s" : ""}
               </Text>
               {confirmedUsers.map((user) => (
-                <ScheduleUser key={user.name} name={user.name} avatar_url={user.avatar_url} />
+                <ScheduleUser
+                  key={user.name}
+                  name={user.name}
+                  avatar_url={user.avatar_url}
+                />
               ))}
             </>
           )}
         </Flex>
         <Flex paddingX={16} style={{ marginTop: "auto" }} gap={-16}>
-          <Button>{statusData.primaryButton}</Button>
+          <Button onPress={statusData.primaryAction}>
+            {statusData.primaryButton}
+          </Button>
           {!!statusData.secondaryButton ? (
-            <Button mode="text">{statusData.secondaryButton}</Button>
+            <Button onPress={statusData.secondaryAction} mode="text">
+              {statusData.secondaryButton}
+            </Button>
           ) : null}
         </Flex>
       </SafeAreaView>

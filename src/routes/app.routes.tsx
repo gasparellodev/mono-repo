@@ -1,25 +1,30 @@
+import { Flex } from "@components/Flex";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
   BottomTabNavigationProp,
   createBottomTabNavigator,
 } from "@react-navigation/bottom-tabs";
 import { CommonActions } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { MyArenaRegisterStack } from "@routes/my-arena-register-stack.routes";
+import { EditProfile } from "@screens/EditProfile/EditProfile";
 import { Home } from "@screens/Home";
 import { MyArenaConfigs } from "@screens/MyArena/MyArenaConfigs";
 import { MyArenaCourtRegister } from "@screens/MyArena/MyArenaCourtRegister";
 import { MySchedule } from "@screens/MySchedule/MySchedule";
-import { EditProfile } from "@screens/EditProfile/EditProfile";
-import { Password } from "@screens/Password/Password";
 import { Notifications } from "@screens/Notifications/Notifications";
+import { Password } from "@screens/Password/Password";
 import { Profile } from "@screens/Profile/Profile";
 import { PublicArena } from "@screens/PublicArena/PublicArena";
 import { ScheduleArena } from "@screens/ScheduleArena/ScheduleArena";
 import { Search } from "@screens/Search";
 import { Platform, TouchableWithoutFeedback, View } from "react-native";
 import { BottomNavigation, TouchableRipple } from "react-native-paper";
+import { ArenaDTO } from "src/dtos/ArenaDTO";
+import { ScheduleDTO } from "src/dtos/ScheduleDTO";
 
 export type AppRoutes = {
+  bottomNavigation: undefined;
   home: undefined;
   search: undefined;
   myArena: undefined;
@@ -31,29 +36,19 @@ export type AppRoutes = {
   myArenaConfigs: undefined;
   profile: undefined;
   publicArena: {
-    arena: {
-      id: string;
-      name: string;
-    };
+    arena: ArenaDTO;
   };
   scheduleArena: {
-    arena: {
-      place: string;
-      sport: string;
-      date: string;
-      price: number;
-      time: string;
-    };
+    arena: ArenaDTO & Partial<ScheduleDTO>;
   };
   notifications: undefined;
-
 };
 
 export type AppNavigationRoutesProps = BottomTabNavigationProp<AppRoutes>;
 
 const { Navigator, Screen } = createBottomTabNavigator<AppRoutes>();
 
-export function AppRoutes() {
+export function BottomNavigationRoutes() {
   return (
     <Navigator
       screenOptions={{
@@ -198,21 +193,52 @@ export function AppRoutes() {
           tabBarButton: () => null,
         }}
       />
-      <Screen name="publicArena" component={PublicArena} options={{
-        tabBarButton: () => null,
-      }} />
-      <Screen name="scheduleArena" component={ScheduleArena} options={{
-        tabBarButton: () => null,
-      }} />
-      <Screen name="notifications" component={Notifications} options={{
-        tabBarButton: () => null,
-      }} />
-      <Screen name="settingProfile" component={EditProfile} options={{
-        tabBarButton: () => null,
-      }} />
-      <Screen name="changePassword" component={Password} options={{
-        tabBarButton: () => null,
-      }} />
+      <Screen
+        name="publicArena"
+        component={PublicArena}
+        options={{
+          tabBarButton: () => null,
+        }}
+      />
+      <Screen
+        name="notifications"
+        component={Notifications}
+        options={{
+          tabBarButton: () => null,
+        }}
+      />
     </Navigator>
+  );
+}
+
+const { Navigator: TabNavigator, Screen: TabScreen } =
+  createNativeStackNavigator<AppRoutes>();
+
+export function AppRoutes() {
+  return (
+    <Flex flex={1} backgroundColor="#121212">
+      <TabNavigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <Screen name="bottomNavigation" component={BottomNavigationRoutes} />
+        <Screen name="scheduleArena" component={ScheduleArena} />
+        <Screen
+          name="changePassword"
+          component={Password}
+          options={{
+            tabBarButton: () => null,
+          }}
+        />
+        <Screen
+          name="settingProfile"
+          component={EditProfile}
+          options={{
+            tabBarButton: () => null,
+          }}
+        />
+      </TabNavigator>
+    </Flex>
   );
 }

@@ -70,7 +70,7 @@ export function PublicArena() {
   return (
     <Flex flex={1} backgroundColor={colors.background}>
       <SafeAreaView>
-        <AppHeader title={arena.name} />
+        <AppHeader title={arena.place} />
         <Flex direction="row" justify="space-between" align="center" height={60} paddingX={16} backgroundColor={colors.tertiaryContainer}>
           <TouchableOpacity onPress={handleSubtractBaseDay} disabled={dayjs(baseDay).isBefore()}>
             <MaterialIcons name="chevron-left" size={24}  color={colors.primary} />

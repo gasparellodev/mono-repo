@@ -1,30 +1,39 @@
 import { Flex } from "@components/Flex";
-import { useAppTheme } from "../providers/ThemeProvider";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { AppNavigationRoutesProps } from "@routes/app.routes";
+import { TouchableOpacity } from "react-native";
 import { Text } from "react-native-paper";
-import { Touchable, TouchableOpacity } from "react-native";
+import { useAppTheme } from "../providers/ThemeProvider";
 
-type Props = {
-  backHandle: () => void;
-};
-export function BackHeader({ backHandle }: Props) {
+export function BackHeader() {
   const { colors } = useAppTheme();
+  const navigation = useNavigation<AppNavigationRoutesProps>();
+
   return (
-    <Flex
-      direction="row"
-      backgroundColor={colors.surfaceContainerLowest}
-      style={{
-        paddingTop: 16,
-        paddingBottom: 16,
-        paddingLeft: 18,
-        paddingRight: 18,
-      }}
-      align="center"
-    >
-      <TouchableOpacity onPress={backHandle}>
-        <Flex direction="row" align="center">
-          <MaterialIcons name="arrow-back" size={24} color={colors.onSurface} />
-          <Text style={{ marginLeft: 18 }}>Voltar</Text>
+    <Flex direction="row" align="center" height={56}>
+      <TouchableOpacity
+        onPress={navigation.goBack}
+        style={{
+          height: "100%",
+          paddingHorizontal: 16,
+          justifyContent: "center",
+        }}
+      >
+        <Flex direction="row" align="center" gap={8}>
+          <MaterialIcons
+            name="arrow-back"
+            size={24}
+            color={colors.inverseSurface}
+          />
+          <Text
+            style={{
+              color: colors.inverseSurface,
+              fontFamily: "Poppins_700Bold",
+            }}
+          >
+            Voltar
+          </Text>
         </Flex>
       </TouchableOpacity>
     </Flex>

@@ -21,7 +21,7 @@ import { ThemeProvider } from "./src/providers/ThemeProvider";
 import { Routes } from "@routes/index";
 import { Toasts } from "@backpackapp-io/react-native-toast";
 import { AuthContextProvider } from "@contexts/AuthContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AppPropsProvider } from "@contexts/AppPropsContext";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -61,7 +61,9 @@ export default function App() {
     <ThemeProvider>
       <SafeAreaView style={{ flex: 1 }}>
         <AuthContextProvider>
-          <Routes />
+          <AppPropsProvider>
+            <Routes />
+          </AppPropsProvider>
         </AuthContextProvider>
         <Toasts />
       </SafeAreaView>

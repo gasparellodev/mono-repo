@@ -41,8 +41,7 @@ export function SignUpThirdStep() {
       };
       return updatedData;
     });
-    navigation.navigate("homeClient");
-
+    // TODO: Call signIn function
   }
 
   useEffect(() => {
