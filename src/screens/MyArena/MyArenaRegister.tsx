@@ -110,6 +110,8 @@ export function MyArenaRegister() {
                 )}
                 value={value}
                 errorMessage={errors.phone?.message}
+                keyboardType="phone-pad"
+                autoComplete="tel"
               />
             )}
             name="phone"

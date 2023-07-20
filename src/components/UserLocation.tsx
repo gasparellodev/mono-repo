@@ -1,47 +1,40 @@
 import { Flex } from "@components/Flex";
-import { Text, useTheme } from "react-native-paper";
 import { MaterialIcons } from "@expo/vector-icons";
-import React from "react";
-import { TouchableOpacity, View } from "react-native";
-import { AppNavigationRoutesProps } from "@routes/app.routes";
 import { useNavigation } from "@react-navigation/native";
+import { AppNavigationRoutesProps } from "@routes/app.routes";
+import { TouchableOpacity } from "react-native";
+import { Text, useTheme } from "react-native-paper";
 
 export function UserLocation() {
   const { colors } = useTheme();
   const navigation = useNavigation<AppNavigationRoutesProps>();
 
   function gotToNotifications() {
-    navigation.navigate('notifications');
+    navigation.navigate("notifications");
   }
 
   return (
     <Flex
       direction="row"
-      style={{ paddingTop: 16, paddingBottom: 16 }}
+      padding={16}
       backgroundColor={colors.surfaceVariant}
-      justify="space-evenly"
+      justify="space-between"
       align="center"
+      gap={8}
     >
-      <View style={{ marginLeft: 16, flex: 1 }}>
+      <TouchableOpacity style={{ flexDirection: "row", flex: 1, alignItems: 'center' }}>
         <Text ellipsizeMode="tail" numberOfLines={1}>
           Rua Selecionada 32, Bairro, Cidade, Estado - País
         </Text>
-      </View>
-
-      <View style={{ marginLeft: 10 }}>
-        <TouchableOpacity>
-          <MaterialIcons
-            name="keyboard-arrow-down"
-            size={25}
-            color={colors.primary}
-          />
-        </TouchableOpacity>
-      </View>
+        <MaterialIcons
+          name="keyboard-arrow-down"
+          size={25}
+          color={colors.primary}
+        />
+      </TouchableOpacity>
 
       <TouchableOpacity onPress={() => gotToNotifications()}>
-        <View style={{ marginLeft: 16, marginRight: 16 }}>
-          <MaterialIcons name="notifications" size={25} color={colors.primary} />
-        </View>
+        <MaterialIcons name="notifications" size={25} color={colors.primary} />
       </TouchableOpacity>
     </Flex>
   );

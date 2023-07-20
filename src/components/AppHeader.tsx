@@ -1,16 +1,16 @@
-import { Flex } from "@components/Flex";
-import { useAppTheme } from "../providers/ThemeProvider";
 import logoWithoutName from "@assets/logo-without-name.png";
-import { Image, View } from "react-native";
+import { Flex } from "@components/Flex";
 import { MaterialIcons } from "@expo/vector-icons";
-import { Text } from "react-native-paper";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigationRoutesProps } from "@routes/app.routes";
+import { Image, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { Text } from "react-native-paper";
+import { useAppTheme } from "../providers/ThemeProvider";
 
 type Props = {
   title: string;
-  isChangePassword?: boolean
+  isChangePassword?: boolean;
 };
 export function AppHeader({ title, isChangePassword }: Props) {
   const { colors } = useAppTheme();
@@ -19,19 +19,15 @@ export function AppHeader({ title, isChangePassword }: Props) {
   const navigation = useNavigation<AppNavigationRoutesProps>();
 
   function gotToNotifications() {
-    if (isChangePassword) return navigation.navigate('profile');
-    navigation.navigate('notifications');
+    if (isChangePassword) return navigation.navigate("profile");
+    navigation.navigate("notifications");
   }
   return (
     <Flex
       direction="row"
       backgroundColor={colors.background}
-      style={{
-        paddingTop: 16,
-        paddingBottom: 16,
-        paddingLeft: 18,
-        paddingRight: 18,
-      }}
+      paddingX={18}
+      paddingY={16}
       justify="space-between"
       align="center"
     >
@@ -46,8 +42,12 @@ export function AppHeader({ title, isChangePassword }: Props) {
         </TouchableOpacity>
       </Flex>
       <TouchableOpacity onPress={() => gotToNotifications()}>
-        <View style={{ marginLeft: 16, marginRight: 16 }}>
-          <MaterialIcons name="notifications" size={25} color={colors.primary} />
+        <View>
+          <MaterialIcons
+            name="notifications"
+            size={25}
+            color={colors.primary}
+          />
         </View>
       </TouchableOpacity>
       {/* <MaterialIcons name="notifications" color={colors.primary} size={24} /> */}

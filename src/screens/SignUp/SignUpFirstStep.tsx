@@ -66,6 +66,8 @@ export function SignUpFirstStep() {
                   value={value}
                   onChangeText={onChange}
                   errorMessage={errors.email?.message}
+                  keyboardType="email-address"
+                  autoComplete="email"
                 />
               )}
               name="email"
@@ -80,6 +82,7 @@ export function SignUpFirstStep() {
                   value={value}
                   onChangeText={onChange}
                   errorMessage={errors.password?.message}
+                  autoComplete="password"
                 />
               )}
               name="password"
@@ -94,6 +97,7 @@ export function SignUpFirstStep() {
                   value={value}
                   onChangeText={onChange}
                   errorMessage={errors.password_confirmation?.message}
+                  autoComplete="password"
                 />
               )}
               name="password_confirmation"
