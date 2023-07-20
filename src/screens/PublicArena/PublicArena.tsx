@@ -10,6 +10,7 @@ import { PublicArenaTime } from "./PublicArenaTime";
 import { PublicArenaDay } from "./PublicArenaDay";
 import { AppNavigationRoutesProps, AppRoutes } from "@routes/app.routes";
 import dayjs from 'dayjs';
+import { AppHeader } from "@components/AppHeader";
 
 const availableTimes = Array.from({ length: 16 }).fill('').map((_, index) => {
   const names = ['Beach Tennis', 'Society', 'Basquete'];
@@ -69,14 +70,7 @@ export function PublicArena() {
   return (
     <Flex flex={1} backgroundColor={colors.background}>
       <SafeAreaView>
-        <Flex direction="row" justify="space-between" align="center" paddingX={16} height={56}>
-          <Text style={{ color: colors.inverseSurface, fontFamily: 'Poppins_700Bold' }}>{arena.name}</Text>
-          <TouchableOpacity onPress={gotToNotifications}>
-            <View style={{ marginHorizontal: 16 }}>
-              <MaterialIcons name="notifications" size={25} color={colors.primary} />
-            </View>
-          </TouchableOpacity>
-        </Flex>
+        <AppHeader title={arena.name} />
         <Flex direction="row" justify="space-between" align="center" height={60} paddingX={16} backgroundColor={colors.tertiaryContainer}>
           <TouchableOpacity onPress={handleSubtractBaseDay} disabled={dayjs(baseDay).isBefore()}>
             <MaterialIcons name="chevron-left" size={24}  color={colors.primary} />

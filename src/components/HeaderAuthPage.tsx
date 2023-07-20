@@ -1,6 +1,6 @@
 import { VStack } from "@components/VStack";
 import { Text, useTheme } from "react-native-paper";
-import { StyleSheet } from "react-native";
+import { StatusBar, StyleSheet } from "react-native";
 
 type Props = {
   title: string;
@@ -30,6 +30,7 @@ export function HeaderAuthPage({ title, subTitle }: Props) {
       >
         {subTitle}
       </Text>
+      <StatusBar barStyle="dark-content" translucent backgroundColor={colors.primary} />
     </VStack>
   );
 }

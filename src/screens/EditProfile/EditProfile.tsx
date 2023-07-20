@@ -81,6 +81,7 @@ export function EditProfile() {
                             value={value}
                             onChangeText={onChange}
                             errorMessage={errors.name?.message}
+                            autoComplete="name"
                         />
                     )}
                     name="name"
@@ -95,6 +96,7 @@ export function EditProfile() {
                             value={value}
                             onChangeText={onChange}
                             errorMessage={errors.surname?.message}
+                            autoComplete="username"
                         />
                     )}
                     name="surname"

@@ -79,6 +79,8 @@ export function Password() {
                             value={value}
                             onChangeText={onChange}
                             errorMessage={errors.email?.message}
+                            keyboardType="email-address"
+                            autoComplete="email"
                         />
                     )}
                     name="email"
@@ -93,6 +95,7 @@ export function Password() {
                             value={value}
                             onChangeText={onChange}
                             errorMessage={errors.password?.message}
+                            autoComplete="password"
                         />
                     )}
                     name="password"
@@ -107,6 +110,7 @@ export function Password() {
                             value={value}
                             onChangeText={onChange}
                             errorMessage={errors.password_confirmation?.message}
+                            autoComplete="password"
                         />
                     )}
                     name="password_confirmation"
@@ -121,6 +125,7 @@ export function Password() {
                             value={value}
                             onChangeText={onChange}
                             errorMessage={errors.password_confirmation?.message}
+                            autoComplete="password"
                         />
                     )}
                     name="password_confirmation"

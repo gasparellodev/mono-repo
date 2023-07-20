@@ -147,6 +147,7 @@ export function SignUpSecondStep() {
                     value={value}
                     onChangeText={onChange}
                     errorMessage={errors.name?.message}
+                    autoComplete="name"
                   />
                 )}
                 name="name"
@@ -161,6 +162,7 @@ export function SignUpSecondStep() {
                     value={value}
                     onChangeText={onChange}
                     errorMessage={errors.nickname?.message}
+                    autoComplete="username"
                   />
                 )}
                 name="nickname"
@@ -201,6 +203,8 @@ export function SignUpSecondStep() {
                     value={value}
                     onChangeText={onChange}
                     errorMessage={errors.cellphone?.message}
+                    keyboardType="phone-pad"
+                    autoComplete="tel"
                   />
                 )}
                 name="cellphone"
