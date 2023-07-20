@@ -1,27 +1,23 @@
+import { MaterialIcons } from "@expo/vector-icons";
 import {
   BottomTabNavigationProp,
   createBottomTabNavigator,
 } from "@react-navigation/bottom-tabs";
-import { BottomNavigation, TouchableRipple } from "react-native-paper";
 import { CommonActions } from "@react-navigation/native";
-import { Home } from "@screens/Home";
-import { MaterialIcons } from "@expo/vector-icons";
-import { Platform, TouchableWithoutFeedback, View } from "react-native";
-import { Search } from "@screens/Search";
-import { MyArena } from "@screens/MyArena/MyArena";
-import { MyArenaRegister } from "@screens/MyArena/MyArenaRegister";
-import * as React from "react";
-import { MyArenaCourtRegister } from "@screens/MyArena/MyArenaCourtRegister";
-import { MyArenaRegisterAddress } from "@screens/MyArena/MyArenaRegisterAddress";
 import { MyArenaRegisterStack } from "@routes/my-arena-register-stack.routes";
+import { Home } from "@screens/Home";
 import { MyArenaConfigs } from "@screens/MyArena/MyArenaConfigs";
-import { PublicArena } from "@screens/PublicArena/PublicArena";
-import { Notifications } from "@screens/Notifications/Notifications";
-import { ScheduleArena } from "@screens/ScheduleArena/ScheduleArena";
-import { Profile } from "@screens/Profile/Profile";
+import { MyArenaCourtRegister } from "@screens/MyArena/MyArenaCourtRegister";
 import { MySchedule } from "@screens/MySchedule/MySchedule";
 import { EditProfile } from "@screens/EditProfile/EditProfile";
 import { Password } from "@screens/Password/Password";
+import { Notifications } from "@screens/Notifications/Notifications";
+import { Profile } from "@screens/Profile/Profile";
+import { PublicArena } from "@screens/PublicArena/PublicArena";
+import { ScheduleArena } from "@screens/ScheduleArena/ScheduleArena";
+import { Search } from "@screens/Search";
+import { Platform, TouchableWithoutFeedback, View } from "react-native";
+import { BottomNavigation, TouchableRipple } from "react-native-paper";
 
 export type AppRoutes = {
   home: undefined;
@@ -38,7 +34,7 @@ export type AppRoutes = {
     arena: {
       id: string;
       name: string;
-    }
+    };
   };
   scheduleArena: {
     arena: {
@@ -47,9 +43,10 @@ export type AppRoutes = {
       date: string;
       price: number;
       time: string;
-    }
-  }
-  notifications: undefined
+    };
+  };
+  notifications: undefined;
+
 };
 
 export type AppNavigationRoutesProps = BottomTabNavigationProp<AppRoutes>;
@@ -99,8 +96,8 @@ export function AppRoutes() {
             return options.tabBarLabel !== undefined
               ? options.tabBarLabel.toString()
               : options.title !== undefined
-                ? options.title
-                : undefined;
+              ? options.title
+              : undefined;
           }}
           renderTouchable={({
             route,
@@ -164,11 +161,7 @@ export function AppRoutes() {
           tabBarLabel: "Agenda",
           tabBarIcon: ({ color, size }) => {
             return (
-              <MaterialIcons
-                name="calendar-today"
-                size={size}
-                color={color}
-              />
+              <MaterialIcons name="calendar-today" size={size} color={color} />
             );
           },
         }}
@@ -179,13 +172,7 @@ export function AppRoutes() {
         options={{
           tabBarLabel: "Perfil",
           tabBarIcon: ({ color, size }) => {
-            return (
-              <MaterialIcons
-                name="person"
-                size={size}
-                color={color}
-              />
-            );
+            return <MaterialIcons name="person" size={size} color={color} />;
           },
         }}
       />
