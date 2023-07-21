@@ -12,6 +12,7 @@ import { FlatList } from "react-native-gesture-handler";
 import { Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ScheduleCard } from "./ScheduleCard";
+import { ScheduleListOrderType  } from "../../data/list-order-type";
 
 export function MySchedule() {
   const { schedule } = useAppProps();
@@ -42,6 +43,7 @@ export function MySchedule() {
               paddingHorizontal: 24,
               marginVertical: 16,
             }}
+            orderList={ScheduleListOrderType}
           />
         </VStack>
 

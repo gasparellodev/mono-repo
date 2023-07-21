@@ -10,4 +10,5 @@ export type UserDTO = {
   favorite_time: string;
   avatar?: string;
   role: string;
+  banner_url?: string;
 };

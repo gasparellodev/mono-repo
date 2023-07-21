@@ -1,7 +1,8 @@
 import { AppHeader } from "@components/AppHeader";
 import { Flex } from "@components/Flex";
 import { Button } from "@components/Forms/Button";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useAuth } from "@hooks/useAuth";
+import { useNavigation } from "@react-navigation/native";
 import { AppNavigationRoutesProps } from "@routes/app.routes";
 import { useState } from "react";
 import { Switch, TouchableOpacity, View } from "react-native";
@@ -10,20 +11,20 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ProfileHeader } from "./ProfileHeader";
 
 export function Profile() {
-  const route = useRoute();
   const { colors } = useTheme();
   const [isEnable, setIsEnable] = useState(true);
+  const { user } = useAuth();
 
   const navigation = useNavigation<AppNavigationRoutesProps>();
 
-  const user = {
-    name: "Luiz Henrique dos Santos",
-    nickname: "Louizinho",
-    avatar_url:
-      "https://ui-avatars.com/api/?name=Luiz+Henrique+dos+Santos&size=300",
-    banner_url: "https://ui-avatars.com/api/?name=&background=random&size=300",
-    game: "Beach Tennis",
-  };
+  // const user = {
+  //   name: "Luiz Henrique dos Santos",
+  //   nickname: "Louizinho",
+  //   avatar_url:
+  //     ,
+  //   banner_url: ,
+  //   game: "Beach Tennis",
+  // };
 
   function handleEditProfile() {
     navigation.navigate("settingProfile");
@@ -39,8 +40,14 @@ export function Profile() {
       <SafeAreaView style={{ flex: 1 }}>
         <AppHeader title="Meu perfil" />
         <ProfileHeader
-          banner_url={user.banner_url}
-          avatar_url={user.avatar_url}
+          banner_url={
+            user.banner_url ||
+            "https://ui-avatars.com/api/?name=&background=random&size=50"
+          }
+          avatar_url={
+            user.avatar ||
+            `https://ui-avatars.com/api/?name=${user.username}&size=300`
+          }
         />
         <View
           style={{
@@ -71,15 +78,19 @@ export function Profile() {
                 color: colors.onBackground,
               }}
             >
-              Joga - {user.game}
+              Joga - {user.favorite_sport}
             </Text>
           </Flex>
-          <Flex
-            align="center"
-            justify="center"
-            direction="row"
-            gap={18}
-            width="100%"
+          <TouchableOpacity
+            style={{
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "row",
+              gap: 18,
+              width: "100%",
+            }}
+            onPress={handleSwitch}
+            activeOpacity={0.9}
           >
             <Switch
               trackColor={{ false: "#ffffff", true: "#00ff55" }}
@@ -107,12 +118,10 @@ export function Profile() {
                 Estou disponível para jogar
               </Text>
             </Flex>
-          </Flex>
+          </TouchableOpacity>
           <Flex width="100%" style={{ marginTop: "auto" }}>
-
-            <Button onPress={handleChangePassword}>Editar Perfil</Button>
-            <Button onPress={handleEditProfile}>Alterar senha</Button>
-
+            <Button onPress={handleEditProfile}>Editar Perfil</Button>
+            <Button onPress={handleChangePassword}>Alterar senha</Button>
           </Flex>
         </View>
 

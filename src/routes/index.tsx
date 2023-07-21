@@ -1,3 +1,4 @@
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { useAuth } from "@hooks/useAuth";
 import { NavigationContainer } from "@react-navigation/native";
 import { AppRoutes } from "@routes/app.routes";
@@ -7,7 +8,9 @@ export function Routes() {
   const { user } = useAuth();
   return (
     <NavigationContainer>
-      {user.id ? <AppRoutes /> : <AuthRoutes />}
+      <BottomSheetModalProvider>
+        {user.id ? <AppRoutes /> : <AuthRoutes />}
+      </BottomSheetModalProvider>
     </NavigationContainer>
   );
 }

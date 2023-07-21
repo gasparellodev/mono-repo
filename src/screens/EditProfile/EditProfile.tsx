@@ -1,47 +1,78 @@
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { useRef, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { View } from "react-native";
+import { Text, useTheme } from "react-native-paper";
+import { SafeAreaView } from "react-native-safe-area-context";
+
 import { BackHeader } from "@components/BackHeader";
+import { BaseBottomListSheet } from "@components/BottomSheet";
 import { Flex } from "@components/Flex";
 import { Button } from "@components/Forms/Button";
 import { Input } from "@components/Forms/Input";
 import { SelectInput } from "@components/Forms/SelectInput";
 import { VStack } from "@components/VStack";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRoute } from "@react-navigation/native";
+import { useAuth } from "@hooks/useAuth";
 import { EditProfileSchema } from "@screens/schemas/edit-profile.schema";
-import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { View } from "react-native";
-import { Text, useTheme } from "react-native-paper";
-import { SafeAreaView } from "react-native-safe-area-context";
+
+import { FavoriteSchedulesList } from "../../data/favorite-schedules-list";
+import { SportsList } from "../../data/sports-list";
 
 type FormDataProps = {
   name: string;
-  surname: string;
+  nickname: string;
   favorite_sport: string;
   favorite_time: string;
 };
 
+type ModalDataProps = {
+  key: string | null;
+  value: string;
+};
+
 export function EditProfile() {
-  const route = useRoute();
+  const { user } = useAuth();
   const { colors } = useTheme();
-  const [favoriteTime, setFavoriteTime] = useState(
-    "Selecione o horário favorito"
-  );
-  const [favoriteSport, setFavoriteSport] = useState("Selecione o esporte");
+  const [favoriteTime, setFavoriteTime] = useState<ModalDataProps>({
+    key: null,
+    value: "Selecione o horário favorito",
+  });
+  const [favoriteSport, setFavoriteSport] = useState<ModalDataProps>({
+    key: null,
+    value: "Selecione o esporte",
+  });
+
+  const favoriteTimeBottomSheetRef = useRef<BottomSheetModal>(null);
+  const favoriteSportBottomSheetRef = useRef<BottomSheetModal>(null);
+
+  const handleOpenFavoriteTime = () =>
+    favoriteTimeBottomSheetRef.current?.present();
+  const handleOpenFavoriteSport = () =>
+    favoriteSportBottomSheetRef.current?.present();
+
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm<FormDataProps>({
     resolver: zodResolver(EditProfileSchema),
+    defaultValues: {
+      name: user.name,
+      nickname: user.nickname,
+      favorite_sport: user.favorite_sport,
+      favorite_time: user.favorite_time,
+    },
   });
 
-  const changePassword = ({
-    favorite_sport,
-    favorite_time,
-    name,
-    surname,
-  }: FormDataProps) => {
-    console.log(favorite_sport, favorite_time, name, surname);
+  const changePassword = (props: FormDataProps) => {
+    props = {
+      ...props,
+      favorite_sport: favoriteSport.key!,
+      favorite_time: favoriteTime.key!,
+    };
+
+    console.log(props);
   };
 
   return (
@@ -102,22 +133,21 @@ export function EditProfile() {
               <Input
                 label="Apelido"
                 placeholder="Fulano"
-                secureTextEntry
                 value={value}
                 onChangeText={onChange}
-                errorMessage={errors.surname?.message}
+                errorMessage={errors.nickname?.message}
                 autoComplete="username"
               />
             )}
-            name="surname"
+            name="nickname"
           />
           <Controller
             control={control}
             render={() => (
               <SelectInput
                 label="Esporte favorito"
-                value={favoriteSport}
-                // onChange={handleSelectFavoriteSport}
+                value={favoriteSport.value}
+                onChange={handleOpenFavoriteSport}
                 errorMessage={errors.favorite_sport?.message}
               />
             )}
@@ -129,17 +159,34 @@ export function EditProfile() {
             render={() => (
               <SelectInput
                 label="Horário favorito"
-                value={favoriteTime}
-                // onChange={handleSelectFavoriteTime}
+                value={favoriteTime.value}
+                onChange={handleOpenFavoriteTime}
                 errorMessage={errors.favorite_time?.message}
               />
             )}
             name="favorite_time"
           />
-          <Button onPress={handleSubmit(changePassword)}>
+          <Button
+            onPress={handleSubmit(changePassword)}
+            disabled={!favoriteSport.key || !favoriteTime.key}
+          >
             Salvar Alterações
           </Button>
         </VStack>
+
+        <BaseBottomListSheet
+          title="Selecione o esporte favorito"
+          list={SportsList}
+          onSelect={(value, key) => setFavoriteSport({ key, value })}
+          ref={favoriteSportBottomSheetRef}
+        />
+
+        <BaseBottomListSheet
+          title="Selecione o horário favorito"
+          list={FavoriteSchedulesList}
+          onSelect={(value, key) => setFavoriteTime({ key, value })}
+          ref={favoriteTimeBottomSheetRef}
+        />
       </SafeAreaView>
     </Flex>
   );

@@ -5,6 +5,7 @@ import { Button } from "@components/Forms/Button";
 import { Input } from "@components/Forms/Input";
 import { VStack } from "@components/VStack";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAuth } from "@hooks/useAuth";
 import { useRoute } from "@react-navigation/native";
 import { signUpFirstStepSchema } from "@screens/schemas/sign-up-first-step.schema";
 import { Controller, useForm } from "react-hook-form";
@@ -20,15 +21,18 @@ type FormDataProps = {
 };
 
 export function Password() {
-  const route = useRoute();
   const { colors } = useTheme();
-
+  const { user } = useAuth();
+  
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm<FormDataProps>({
     resolver: zodResolver(signUpFirstStepSchema),
+    defaultValues: {
+      email: user.email
+    }
   });
 
   const changePassword = ({

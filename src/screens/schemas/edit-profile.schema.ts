@@ -5,6 +5,6 @@ export const EditProfileSchema = z
   .object({
     name: z
       .string({ required_error: "Informe seu nome" }),
-    surname: z
+    nickname: z
       .string({ required_error: "Informe seu apelido" })
   })
