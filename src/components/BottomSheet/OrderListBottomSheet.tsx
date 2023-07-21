@@ -57,6 +57,7 @@ export const OrderListBottomSheet = forwardRef<
               <TouchableRipple
                 onPress={() => handleSelectItem(item.key)}
                 style={{ maxWidth: "30%", width: "100%" }}
+                key={item.key}
               >
                 <Flex
                   align="center"

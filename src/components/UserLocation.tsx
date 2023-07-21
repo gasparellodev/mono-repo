@@ -6,17 +6,14 @@ import { AppNavigationRoutesProps } from "@routes/app.routes";
 import { useRef, useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { Text, TouchableRipple, useTheme } from "react-native-paper";
-import { HomeListOrderType } from "../data/list-order-type";
-import { OrderListBottomSheet } from "./BottomSheet";
+import { LocationBottomSheet } from "./BottomSheet";
 
 export function UserLocation() {
   const { colors } = useTheme();
   const navigation = useNavigation<AppNavigationRoutesProps>();
 
-  const [orderTypeId, setOrderTypeId] = useState(HomeListOrderType[0].key);
-
-  const listOrderBottomSheetRef = useRef<BottomSheetModal>(null);
-  const handleOpenListOrder = () => listOrderBottomSheetRef.current?.present();
+  const locationBottomSheetRef = useRef<BottomSheetModal>(null);
+  const handleOpenLocation = () => locationBottomSheetRef.current?.present();
 
   function gotToNotifications() {
     navigation.navigate("notifications");
@@ -39,7 +36,7 @@ export function UserLocation() {
           height: "100%",
           marginHorizontal: 16,
         }}
-        onPress={handleOpenListOrder}
+        onPress={handleOpenLocation}
       >
         <Text ellipsizeMode="tail" numberOfLines={1}>
           Rua Selecionada 32, Bairro, Cidade, Estado - País
@@ -64,12 +61,10 @@ export function UserLocation() {
         <MaterialIcons name="notifications" size={25} color={colors.primary} />
       </TouchableRipple>
 
-      <OrderListBottomSheet
-        onSelect={setOrderTypeId}
-        title="Selecione o tipo de ordenação"
-        ref={listOrderBottomSheetRef}
-        list={HomeListOrderType}
-        selectedId={orderTypeId}
+      <LocationBottomSheet
+        onSelect={console.log}
+        title="Selecione seu endereço"
+        ref={locationBottomSheetRef}
       />
     </Flex>
   );
