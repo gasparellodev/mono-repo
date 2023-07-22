@@ -14,7 +14,6 @@ import { signUpSecondStepSchema } from "@screens/schemas/sign-up-second-step.sch
 import { useCallback, useMemo, useRef, useState } from "react";
 import { Controller, useController, useForm } from "react-hook-form";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useTheme } from "react-native-paper";
 import { FavoriteSchedulesList } from "../../data/favorite-schedules-list";
 import { SportsList } from "../../data/sports-list";
 import { CreateUserDTO } from "../../dtos/CreateUserDTO";
@@ -37,10 +36,7 @@ export function SignUpSecondStep() {
   );
   const [selectType, setSelectType] = useState("");
 
-  const { colors } = useTheme();
-
   const bottomSheetRef = useRef<BottomSheetModal>(null);
-  const snapPoints = useMemo(() => ["50%", "50%"], []);
 
   const navigation = useNavigation<SignUpStackRoutesProps>();
 
@@ -60,7 +56,7 @@ export function SignUpSecondStep() {
     name: "favorite_time",
   });
 
-  const { setCreateUserData, createUserData } = useCreateUser();
+  const { setCreateUserData } = useCreateUser();
 
   function handleNextPage({
     name,
