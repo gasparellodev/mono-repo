@@ -1,3 +1,3 @@
-export interface ICreateIntegration<T> {
-  create: (body: T) => Promise<void>;
+export interface ICreateIntegration<TBody, TResponse = void> {
+  execute: (body: TBody) => Promise<TResponse>;
 }

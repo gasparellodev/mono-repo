@@ -15,7 +15,7 @@ import { AppError } from "@utils/AppError";
 import { getMessage } from "@utils/GetMessage";
 import { useNavigation } from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
-import { SignUpIntegration } from "@services/integrations/SignUpIntegration";
+import { SignUpIntegration } from "@services/integrations";
 
 type FormDataProps = {
   role: Role;
@@ -44,7 +44,7 @@ export function SignUpThirdStep() {
         return updatedData;
       });
 
-      await signUpIntegration.create(createUserData);
+      await signUpIntegration.execute(createUserData);
 
       toast.success("Conta criada com sucesso");
       navigation.navigate("signIn");

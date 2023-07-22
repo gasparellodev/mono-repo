@@ -5,7 +5,7 @@ import { ICreateIntegration } from "src/interfaces/createIntegration";
 export class SignUpIntegration implements ICreateIntegration<CreateUserDTO> {
   private readonly ROUTE = "/auth";
 
-  async create(body: CreateUserDTO) {
+  async execute(body: CreateUserDTO) {
     await api.post(`${this.ROUTE}/sign-up`, body);
   }
 }

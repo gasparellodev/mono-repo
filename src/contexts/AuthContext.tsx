@@ -11,6 +11,7 @@ import {
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { UserDTO } from "../dtos/UserDTO";
 import { api } from "@services/api";
+import { SignInIntegration } from "@services/integrations";
 
 export type AuthContextDataProps = {
   user: UserDTO;
@@ -27,6 +28,8 @@ export const AuthContext = createContext<AuthContextDataProps>(
   {} as AuthContextDataProps
 );
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
+  const signInIntegration = new SignInIntegration();
+
   const [user, setUser] = useState<UserDTO>({} as UserDTO);
   const [isLoadingUserStorageData, setIsLoadingUserStorage] = useState(true);
 
@@ -37,10 +40,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   async function singIn(email: string, password: string) {
     try {
-      const { data } = await api.post("/api/auth/sign-in", {
-        emailOrUsername: email,
-        password,
-      });
+      const data = await signInIntegration.execute({ email, password });
       if (data.user && data.access_token) {
         setIsLoadingUserStorage(true);
 
