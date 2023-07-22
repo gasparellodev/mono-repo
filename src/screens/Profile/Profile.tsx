@@ -13,7 +13,7 @@ import { ProfileHeader } from "./ProfileHeader";
 export function Profile() {
   const { colors } = useTheme();
   const [isEnable, setIsEnable] = useState(true);
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
 
   const navigation = useNavigation<AppNavigationRoutesProps>();
 
@@ -122,6 +122,7 @@ export function Profile() {
           <Flex width="100%" style={{ marginTop: "auto" }}>
             <Button onPress={handleEditProfile}>Editar Perfil</Button>
             <Button onPress={handleChangePassword}>Alterar senha</Button>
+            <Button onPress={signOut}>Sair</Button>
           </Flex>
         </View>
 
