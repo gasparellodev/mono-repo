@@ -1,4 +1,5 @@
 import { Flex } from "@components/Flex";
+import { LocalizationContextProvider } from "@contexts/LocalizationContext";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
   BottomTabNavigationProp,
@@ -216,29 +217,31 @@ const { Navigator: TabNavigator, Screen: TabScreen } =
 
 export function AppRoutes() {
   return (
-    <Flex flex={1} backgroundColor="#121212">
-      <TabNavigator
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        <Screen name="bottomNavigation" component={BottomNavigationRoutes} />
-        <Screen name="scheduleArena" component={ScheduleArena} />
-        <Screen
-          name="changePassword"
-          component={Password}
-          options={{
-            tabBarButton: () => null,
+    <LocalizationContextProvider>
+      <Flex flex={1} backgroundColor="#121212">
+        <TabNavigator
+          screenOptions={{
+            headerShown: false,
           }}
-        />
-        <Screen
-          name="settingProfile"
-          component={EditProfile}
-          options={{
-            tabBarButton: () => null,
-          }}
-        />
-      </TabNavigator>
-    </Flex>
+        >
+          <Screen name="bottomNavigation" component={BottomNavigationRoutes} />
+          <Screen name="scheduleArena" component={ScheduleArena} />
+          <Screen
+            name="changePassword"
+            component={Password}
+            options={{
+              tabBarButton: () => null,
+            }}
+          />
+          <Screen
+            name="settingProfile"
+            component={EditProfile}
+            options={{
+              tabBarButton: () => null,
+            }}
+          />
+        </TabNavigator>
+      </Flex>
+    </LocalizationContextProvider>
   );
 }
