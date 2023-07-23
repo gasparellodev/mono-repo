@@ -48,7 +48,7 @@ export function SignIn() {
 
       const title = isAppError
         ? getMessage(error.message, "pt")
-        : "Não foi possivel entrar. Tente novamente mais tarde";
+        : "Não foi possível entrar. Tente novamente mais tarde";
 
       setIsLoading(false);
       toast.error(title, { disableShadow: true, duration: 2000 });
@@ -67,7 +67,7 @@ export function SignIn() {
     <Flex flex={1} backgroundColor={colors.surface}>
       <SafeAreaView style={{ flex: 1 }}>
         <VStack>
-          <HeaderAuthPage title="Acessar Eu Jogo" subTitle="Comecar" />
+          <HeaderAuthPage title="Acessar Eu Jogo" subTitle="Começar" />
           <VStack style={{ paddingHorizontal: 24, paddingTop: 16 }}>
             <Controller
               control={control}
@@ -84,7 +84,6 @@ export function SignIn() {
                 />
               )}
               name="email"
-              defaultValue="alan.turing@gmail.com"
             />
 
             <Controller
@@ -102,7 +101,6 @@ export function SignIn() {
                 />
               )}
               name="password"
-              defaultValue="123456Ik!"
             />
 
             <Flex direction="row" align="center" justify="space-between">

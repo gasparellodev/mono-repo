@@ -2,7 +2,8 @@ import axios from "axios";
 import { AppError } from "@utils/AppError";
 
 const api = axios.create({
-  baseURL: "http://192.168.0.14:4000/api",
+  // ToDO: Change to use environment variables
+  baseURL: "https://eujogoservice-production.up.railway.app/api",
 });
 
 api.interceptors.response.use(

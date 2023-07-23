@@ -1,6 +1,11 @@
-import { IGetIntegration } from '../getIntegration';
-import { NearbyArenasRequest, NearbyArenasResponse } from './nearbyArenas';
+import { IGetIntegration } from "../getIntegration";
+import {
+  NearbyArenasRequest,
+  ArenaModel,
+  SearchArenasByNameRequest,
+} from "./arenas";
 
 export interface IArena {
-  getNearbyArenas: IGetIntegration<NearbyArenasRequest, NearbyArenasResponse[]>;
+  getNearbyArenas: IGetIntegration<NearbyArenasRequest, ArenaModel[]>;
+  getByName: IGetIntegration<SearchArenasByNameRequest, ArenaModel[]>;
 }

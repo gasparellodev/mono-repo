@@ -1,10 +1,10 @@
 import { FlatList } from "react-native-gesture-handler";
 import { NearbyAreas } from "./NearbyAreas";
-import { NearbyArenasResponse } from "src/interfaces/home/nearbyArenas";
+import { ArenaModel } from "src/interfaces/home/arenas";
 import { Text } from "react-native";
 
 type Props = {
-  nearbyArenas: NearbyArenasResponse[];
+  nearbyArenas: ArenaModel[];
 };
 
 export function NearbyArenasList({ nearbyArenas }: Props) {

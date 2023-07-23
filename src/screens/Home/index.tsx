@@ -3,7 +3,7 @@ import { FilterGroup } from "@components/FilterGroup";
 import { Flex } from "@components/Flex";
 import { UserLocation } from "@components/UserLocation";
 import { VStack } from "@components/VStack";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { FlatList, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { HomeListOrderType } from "../../data/list-order-type";
@@ -11,18 +11,22 @@ import { useHome } from "./useHome";
 import { useLocalization } from "@hooks/useLocalization";
 import { Loading } from "@components/Loading";
 import { NearbyArenasList } from "@components/NearbyAreas";
+import { Button } from "@components/Forms/Button";
 
 export function Home() {
   const { loading, nearbyArenas } = useHome();
-  const { isGranted } = useLocalization();
+  const { isGranted, requestPermission } = useLocalization();
 
   const [groupSelected, setGroupSelected] = useState("");
-  const [groups, setGroups] = useState([
-    { label: "Ordenar", icon: "keyboard-arrow-down", key: "order" },
-    { label: "Jogar de Noite", icon: undefined, key: "play_at_night" },
-    { label: "Jogar de Tarde", icon: undefined, key: "play_at_afternoon" },
-    { label: "Jogar de Dia", icon: undefined, key: "play_at_day" },
-  ]);
+  const groups = useMemo(
+    () => [
+      { label: "Ordenar", icon: "keyboard-arrow-down", key: "order" },
+      { label: "Jogar de Noite", icon: undefined, key: "play_at_night" },
+      { label: "Jogar de Tarde", icon: undefined, key: "play_at_afternoon" },
+      { label: "Jogar de Dia", icon: undefined, key: "play_at_day" },
+    ],
+    []
+  );
 
   const [availableTimes, setAvailableTimes] = useState([
     {
@@ -142,17 +146,22 @@ export function Home() {
           {isGranted ? (
             <NearbyArenasList nearbyArenas={nearbyArenas} />
           ) : (
-            <Text
-              style={{
-                textAlign: "center",
-                padding: 24,
-                fontSize: 18,
-                fontWeight: "bold",
-                color: "#F0F6E9",
-              }}
-            >
-              Autorizar localização para ver arenas próximas
-            </Text>
+            <>
+              <Text
+                style={{
+                  textAlign: "center",
+                  padding: 24,
+                  fontSize: 18,
+                  fontWeight: "bold",
+                  color: "#F0F6E9",
+                }}
+              >
+                Autorizar localização para ver arenas próximas
+              </Text>
+              <Button onPress={requestPermission}>
+                Permitir usar localização
+              </Button>
+            </>
           )}
         </VStack>
       </SafeAreaView>

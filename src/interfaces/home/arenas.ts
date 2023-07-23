@@ -1,9 +1,15 @@
 export type NearbyArenasRequest = {
   latitude: number;
   longitude: number;
-}
+};
 
-export type NearbyArenasResponse = {
+export type SearchArenasByNameRequest = {
+  name: string;
+  latitude: number;
+  longitude: number;
+};
+
+export type ArenaModel = {
   id: string;
   name: string;
   description: string;

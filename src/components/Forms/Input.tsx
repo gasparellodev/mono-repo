@@ -1,12 +1,13 @@
 import { HelperText, TextInput, TextInputProps } from "react-native-paper";
-import { View, ViewStyle } from "react-native";
+import { ViewStyle } from "react-native";
 import { Flex } from "@components/Flex";
 
-type Props = TextInputProps & {
+export type InputProps = TextInputProps & {
   defHeight?: boolean;
   errorMessage?: string;
   containerStyle?: ViewStyle;
 };
+
 export function Input({
   label,
   placeholder,
@@ -14,7 +15,7 @@ export function Input({
   errorMessage,
   containerStyle,
   ...rest
-}: Props) {
+}: InputProps) {
   const invalid = !!errorMessage;
   return (
     <Flex width={"100%"} style={containerStyle}>

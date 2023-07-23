@@ -2,14 +2,14 @@ import ball from "@assets/ball.png";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Image, TouchableOpacity, View } from "react-native";
 import { Text, useTheme } from "react-native-paper";
-import { NearbyArenasResponse } from "src/interfaces/home/nearbyArenas";
+import { ArenaModel } from "src/interfaces/home/arenas";
 
 export function NearbyAreas({
   name,
   description,
   numberAviations,
   numberStar,
-}: NearbyArenasResponse) {
+}: ArenaModel) {
   const { colors } = useTheme();
 
   return (

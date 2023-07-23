@@ -1,17 +1,16 @@
 import { toast } from "@backpackapp-io/react-native-toast";
-import { useAuth } from "@hooks/useAuth";
 import { useLocalization } from "@hooks/useLocalization";
 import { ArenaIntegration } from "@services/integrations/ArenaIntegration";
 import { AppError } from "@utils/AppError";
 import { getMessage } from "@utils/GetMessage";
 import { useCallback, useEffect, useState } from "react";
-import { NearbyArenasResponse } from "src/interfaces/home/nearbyArenas";
+import { ArenaModel } from "src/interfaces/home/arenas";
 
 export const useHome = () => {
   const { location, isGranted } = useLocalization();
   const arenaIntegration = new ArenaIntegration();
 
-  const [nearbyArenas, setNearbyArenas] = useState<NearbyArenasResponse[]>([]);
+  const [nearbyArenas, setNearbyArenas] = useState<ArenaModel[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchNearbyArenas = useCallback(async () => {
@@ -31,7 +30,7 @@ export const useHome = () => {
       const isAppError = error instanceof AppError;
       const title = isAppError
         ? getMessage(error.message, "pt")
-        : "Não foi possível listar arenas próximas. Tente novamente mais tarde";
+        : "Não foi possível listar arenas próximas";
 
       toast.error(title);
     } finally {
@@ -41,7 +40,6 @@ export const useHome = () => {
     isGranted,
     location?.coords?.latitude,
     location?.coords?.longitude,
-    setNearbyArenas,
   ]);
 
   useEffect(() => {
