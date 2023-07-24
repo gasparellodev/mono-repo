@@ -3,13 +3,15 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigationRoutesProps } from "@routes/app.routes";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { TouchableOpacity } from "react-native";
 import { Text, TouchableRipple, useTheme } from "react-native-paper";
 import { LocationBottomSheet } from "./BottomSheet";
+import { useLocalization } from "@hooks/useLocalization";
 
 export function UserLocation() {
   const { colors } = useTheme();
+  const { address } = useLocalization();
   const navigation = useNavigation<AppNavigationRoutesProps>();
 
   const locationBottomSheetRef = useRef<BottomSheetModal>(null);
@@ -18,6 +20,17 @@ export function UserLocation() {
   function gotToNotifications() {
     navigation.navigate("notifications");
   }
+
+  const completeAddress = [
+    address?.street,
+    address?.streetNumber,
+    address?.district,
+    address?.city,
+    address?.region,
+    address?.country,
+  ]
+    .filter(Boolean)
+    .join(", ");
 
   return (
     <Flex
@@ -39,7 +52,7 @@ export function UserLocation() {
         onPress={handleOpenLocation}
       >
         <Text ellipsizeMode="tail" numberOfLines={1}>
-          Rua Selecionada 32, Bairro, Cidade, Estado - País
+          {completeAddress || "Selecione seu endereço"}
         </Text>
         <MaterialIcons
           name="keyboard-arrow-down"
@@ -62,7 +75,6 @@ export function UserLocation() {
       </TouchableRipple>
 
       <LocationBottomSheet
-        onSelect={console.log}
         title="Selecione seu endereço"
         ref={locationBottomSheetRef}
       />

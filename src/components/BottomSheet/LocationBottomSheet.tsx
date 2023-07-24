@@ -1,24 +1,27 @@
 import { Flex } from "@components/Flex";
-import { Input } from "@components/Forms/Input";
+import { InputPlace } from "@components/Forms/InputPlace";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { RefObject, forwardRef, useMemo } from "react";
+import { useLocalization } from "@hooks/useLocalization";
+import { RefObject, forwardRef, useMemo, useState } from "react";
 import { View } from "react-native";
 import { Text, TextInput, TouchableRipple, useTheme } from "react-native-paper";
 
 interface LocationBottomSheetProps {
   title: string;
-  onSelect: (key: string) => void;
 }
 
 export const LocationBottomSheet = forwardRef<
   BottomSheetModal,
   LocationBottomSheetProps
->(({ title, onSelect, ...props }, ref) => {
+>(({ title, ...props }, ref) => {
   const { colors } = useTheme();
+  const { getCurrentLocation } = useLocalization();
+
+  const [addressValue, setAddressValue] = useState("");
+
   const snapPoints = useMemo(() => ["50%", "50%"], []);
 
-  function handleSelectItem(key: string) {
-    onSelect(key);
+  function closeOnSelect() {
     (ref as RefObject<BottomSheetModal>).current?.dismiss();
   }
 
@@ -43,20 +46,35 @@ export const LocationBottomSheet = forwardRef<
           backgroundColor="transparent"
           style={{
             padding: 16,
-            paddingBottom: 32
+            paddingBottom: 32,
           }}
         >
-          <Input
+          <InputPlace
             placeholder="Buscar endereço"
+            value={addressValue}
+            onChangeText={setAddressValue}
             left={<TextInput.Icon icon="magnify" />}
             containerStyle={{
-              backgroundColor: 'transparent',
+              backgroundColor: "transparent",
+            }}
+            onSelect={() => {
+              closeOnSelect()
+              setAddressValue("")
             }}
           />
-          <TouchableRipple onPress={() => {}}>
+          <TouchableRipple
+            onPress={() => {
+              getCurrentLocation();
+              closeOnSelect();
+            }}
+          >
             <View>
-            <Text style={{ fontFamily: 'Poppins_700Bold', fontSize: 16 }}>Usar minha localização</Text>
-            <Text style={{ fontSize: 12 }}>Ative sua lozalização para encontrar sua quadra</Text>
+              <Text style={{ fontFamily: "Poppins_700Bold", fontSize: 16 }}>
+                Usar minha localização
+              </Text>
+              <Text style={{ fontSize: 12 }}>
+                Ative sua localização para encontrar sua quadra
+              </Text>
             </View>
           </TouchableRipple>
         </Flex>

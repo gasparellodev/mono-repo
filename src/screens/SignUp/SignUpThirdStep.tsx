@@ -3,7 +3,7 @@ import { VStack } from "@components/VStack";
 import { HeaderAuthPage } from "@components/HeaderAuthPage";
 import { Button } from "@components/Forms/Button";
 import { RadioButton, Text } from "react-native-paper";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useCreateUser } from "@hooks/useCreateUser";
 import { Role } from "../../enums/role.enum";
 import { Controller, useForm } from "react-hook-form";
@@ -11,46 +11,53 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpThirdStepSchema } from "@screens/schemas/sign-up-third-step.schema";
 import { CreateUserDTO } from "../../dtos/CreateUserDTO";
 import { toast } from "@backpackapp-io/react-native-toast";
-import { SignUpStackRoutesProps } from "@routes/sign-up-stack.routes";
+import { AppError } from "@utils/AppError";
+import { getMessage } from "@utils/GetMessage";
 import { useNavigation } from "@react-navigation/native";
+import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
+import { AuthIntegration } from "@services/integrations/AuthIntegration";
 
 type FormDataProps = {
   role: Role;
 };
 export function SignUpThirdStep() {
+  const navigation = useNavigation<AuthNavigatorRoutesProps>();
+  const authIntegration = new AuthIntegration();
+
   const [loading, setLoading] = useState(false);
-  const navigation = useNavigation<SignUpStackRoutesProps>();
   const { setCreateUserData, createUserData } = useCreateUser();
 
   const PRE_SELECTED_RADIO = Role.Player;
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormDataProps>({
+  const { control, handleSubmit } = useForm<FormDataProps>({
     resolver: zodResolver(signUpThirdStepSchema),
   });
 
   async function handleUpdateCreateUserData({ role }: FormDataProps) {
-    setLoading(true);
-    setCreateUserData((prevData) => {
-      const updatedData: CreateUserDTO = {
-        ...prevData,
-        role,
-      };
-      return updatedData;
-    });
-    // TODO: Call signIn function
-  }
+    try {
+      setLoading(true);
+      setCreateUserData((prevData) => {
+        const updatedData: CreateUserDTO = {
+          ...prevData,
+          role,
+        };
+        return updatedData;
+      });
 
-  useEffect(() => {
-    handleCallRegister();
-  }, [createUserData]);
+      await authIntegration.signUp(createUserData);
 
-  async function handleCallRegister() {
-    console.log(createUserData);
-    setTimeout(() => setLoading(false), 1000);
+      toast.success("Conta criada com sucesso");
+      navigation.navigate("signIn");
+    } catch (error) {
+      const isAppError = error instanceof AppError;
+      const title = isAppError
+        ? getMessage(error.message, "pt")
+        : "Não foi possível criar conta. Tente novamente mais tarde";
+
+      toast.error(title);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (

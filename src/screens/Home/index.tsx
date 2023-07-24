@@ -1,22 +1,32 @@
 import { AvailableTimeCard } from "@components/AvailableTimeCard";
 import { FilterGroup } from "@components/FilterGroup";
 import { Flex } from "@components/Flex";
-import { NearbyAreas } from "@components/NearbyAreas/NearbyAreas";
 import { UserLocation } from "@components/UserLocation";
 import { VStack } from "@components/VStack";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { FlatList, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { HomeListOrderType } from "../data/list-order-type";
+import { HomeListOrderType } from "../../data/list-order-type";
+import { useHome } from "./useHome";
+import { useLocalization } from "@hooks/useLocalization";
+import { Loading } from "@components/Loading";
+import { NearbyArenasList } from "@components/NearbyAreas";
+import { Button } from "@components/Forms/Button";
 
 export function Home() {
+  const { loading, nearbyArenas } = useHome();
+  const { isGranted, requestPermission } = useLocalization();
+
   const [groupSelected, setGroupSelected] = useState("");
-  const [groups, setGroups] = useState([
-    { label: "Ordenar", icon: "keyboard-arrow-down", key: "order" },
-    { label: "Jogar de Noite", icon: undefined, key: "play_at_night" },
-    { label: "Jogar de Tarde", icon: undefined, key: "play_at_afternoon" },
-    { label: "Jogar de Dia", icon: undefined, key: "play_at_day" },
-  ]);
+  const groups = useMemo(
+    () => [
+      { label: "Ordenar", icon: "keyboard-arrow-down", key: "order" },
+      { label: "Jogar de Noite", icon: undefined, key: "play_at_night" },
+      { label: "Jogar de Tarde", icon: undefined, key: "play_at_afternoon" },
+      { label: "Jogar de Dia", icon: undefined, key: "play_at_day" },
+    ],
+    []
+  );
 
   const [availableTimes, setAvailableTimes] = useState([
     {
@@ -77,64 +87,9 @@ export function Home() {
     },
   ]);
 
-  const nearbyArenas = [
-    {
-      id: 1,
-      name: "Jogar de tarde",
-      description: "Aluguel de quadras de areia e quadras Society.",
-      numberStar: 4,
-      numberAviations: 6,
-    },
-    {
-      id: 2,
-      name: "Jogar de noite",
-      description: "Aluguel de quadras de areia e quadras Society.",
-      numberStar: 4,
-      numberAviations: 6,
-    },
-    {
-      id: 3,
-      name: "Jogar de manhã",
-      description: "Aluguel de quadras de areia e quadras Society.",
-      numberStar: 4,
-      numberAviations: 6,
-    },
-    {
-      id: 4,
-      name: "Jogar de",
-      description: "Aluguel de quadras de areia e quadras Society.",
-      numberStar: 4,
-      numberAviations: 6,
-    },
-    {
-      id: 5,
-      name: "futevolei",
-      description: "Aluguel de quadras de areia e quadras Society.",
-      numberStar: 4,
-      numberAviations: 6,
-    },
-    {
-      id: 6,
-      name: "Futebol",
-      description: "Aluguel de quadras de areia e quadras Society.",
-      numberStar: 4,
-      numberAviations: 6,
-    },
-    {
-      id: 7,
-      name: "Basquete",
-      description: "Aluguel de quadras de areia e quadras Society.",
-      numberStar: 4,
-      numberAviations: 6,
-    },
-    {
-      id: 8,
-      name: "Paintball",
-      description: "Aluguel de quadras de areia e quadras Society.",
-      numberStar: 4,
-      numberAviations: 6,
-    },
-  ];
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <Flex flex={1}>
@@ -188,14 +143,26 @@ export function Home() {
           >
             Arenas mais próxima de você
           </Text>
-          <FlatList
-            contentContainerStyle={{ paddingHorizontal: 24, gap: 16 }}
-            data={nearbyArenas}
-            keyExtractor={(item) => item.name}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => <NearbyAreas {...item} />}
-          />
+          {isGranted ? (
+            <NearbyArenasList nearbyArenas={nearbyArenas} />
+          ) : (
+            <>
+              <Text
+                style={{
+                  textAlign: "center",
+                  padding: 24,
+                  fontSize: 18,
+                  fontWeight: "bold",
+                  color: "#F0F6E9",
+                }}
+              >
+                Autorizar localização para ver arenas próximas
+              </Text>
+              <Button onPress={requestPermission}>
+                Permitir usar localização
+              </Button>
+            </>
+          )}
         </VStack>
       </SafeAreaView>
     </Flex>

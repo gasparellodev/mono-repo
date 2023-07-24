@@ -1,5 +1,7 @@
 import { Flex } from "@components/Flex";
+import { LocalizationContextProvider } from "@contexts/LocalizationContext";
 import { MaterialIcons } from "@expo/vector-icons";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import {
   BottomTabNavigationProp,
   createBottomTabNavigator,
@@ -13,7 +15,7 @@ import { MyArenaConfigs } from "@screens/MyArena/MyArenaConfigs";
 import { MyArenaCourtRegister } from "@screens/MyArena/MyArenaCourtRegister";
 import { MySchedule } from "@screens/MySchedule/MySchedule";
 import { Notifications } from "@screens/Notifications/Notifications";
-import { Password } from "@screens/Password/Password";
+import { Password } from "@screens/Password";
 import { Profile } from "@screens/Profile/Profile";
 import { PublicArena } from "@screens/PublicArena/PublicArena";
 import { ScheduleArena } from "@screens/ScheduleArena/ScheduleArena";
@@ -216,29 +218,36 @@ const { Navigator: TabNavigator, Screen: TabScreen } =
 
 export function AppRoutes() {
   return (
-    <Flex flex={1} backgroundColor="#121212">
-      <TabNavigator
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        <Screen name="bottomNavigation" component={BottomNavigationRoutes} />
-        <Screen name="scheduleArena" component={ScheduleArena} />
-        <Screen
-          name="changePassword"
-          component={Password}
-          options={{
-            tabBarButton: () => null,
-          }}
-        />
-        <Screen
-          name="settingProfile"
-          component={EditProfile}
-          options={{
-            tabBarButton: () => null,
-          }}
-        />
-      </TabNavigator>
-    </Flex>
+    <LocalizationContextProvider>
+      <BottomSheetModalProvider>
+        <Flex flex={1} backgroundColor="#121212">
+          <TabNavigator
+            screenOptions={{
+              headerShown: false,
+            }}
+          >
+            <Screen
+              name="bottomNavigation"
+              component={BottomNavigationRoutes}
+            />
+            <Screen name="scheduleArena" component={ScheduleArena} />
+            <Screen
+              name="changePassword"
+              component={Password}
+              options={{
+                tabBarButton: () => null,
+              }}
+            />
+            <Screen
+              name="settingProfile"
+              component={EditProfile}
+              options={{
+                tabBarButton: () => null,
+              }}
+            />
+          </TabNavigator>
+        </Flex>
+      </BottomSheetModalProvider>
+    </LocalizationContextProvider>
   );
 }

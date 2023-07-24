@@ -1,53 +1,32 @@
-import { AppHeader } from "@components/AppHeader";
 import { BackHeader } from "@components/BackHeader";
 import { Flex } from "@components/Flex";
 import { Button } from "@components/Forms/Button";
 import { Input } from "@components/Forms/Input";
 import { VStack } from "@components/VStack";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAuth } from "@hooks/useAuth";
-import { useRoute } from "@react-navigation/native";
-import { signUpFirstStepSchema } from "@screens/schemas/sign-up-first-step.schema";
 import { Controller, useForm } from "react-hook-form";
 import { View } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-type FormDataProps = {
-  email: string;
-  password: string;
-  new_password: string;
-  password_confirmation: string;
-};
+import { usePassword } from "./usePassword";
+import { ChangePasswordDTO } from "src/dtos/ChangePasswordDTO";
+import { changePasswordSchema } from "@screens/schemas/change-password.schema";
 
 export function Password() {
   const { colors } = useTheme();
-  const { user } = useAuth();
-  
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormDataProps>({
-    resolver: zodResolver(signUpFirstStepSchema),
-    defaultValues: {
-      email: user.email
-    }
+  } = useForm<ChangePasswordDTO>({
+    resolver: zodResolver(changePasswordSchema),
   });
-
-  const changePassword = ({
-    email,
-    password,
-    password_confirmation,
-    new_password,
-  }: FormDataProps) => {
-    console.log(email, password, password_confirmation, new_password);
-  };
+  const { handleChangePassword } = usePassword();
 
   return (
     <Flex flex={1} backgroundColor={colors.background}>
       <SafeAreaView style={{ flex: 1 }}>
-        <BackHeader  />
+        <BackHeader />
         <View
           style={{
             backgroundColor: colors.primary,
@@ -84,24 +63,23 @@ export function Password() {
             control={control}
             render={({ field: { onChange, value } }) => (
               <Input
-                label="E-mail"
-                placeholder="Coloque seu e-mail aqui"
-                autoCapitalize="none"
+                label="Senha Atual"
+                placeholder="Coloque sua senha aqui"
+                secureTextEntry
                 value={value}
                 onChangeText={onChange}
-                errorMessage={errors.email?.message}
-                keyboardType="email-address"
-                autoComplete="email"
+                errorMessage={errors.oldPassword?.message}
+                autoComplete="password"
               />
             )}
-            name="email"
+            name="oldPassword"
           />
           <Controller
             control={control}
             render={({ field: { onChange, value } }) => (
               <Input
-                label="Senha Atual"
-                placeholder="Coloque sua senha aqui"
+                label="Nova senha"
+                placeholder="Digite sua nova senha aqui"
                 secureTextEntry
                 value={value}
                 onChangeText={onChange}
@@ -115,41 +93,24 @@ export function Password() {
             control={control}
             render={({ field: { onChange, value } }) => (
               <Input
-                label="Nova senha"
-                placeholder="Digite sua nova senha aqui"
-                secureTextEntry
-                value={value}
-                onChangeText={onChange}
-                errorMessage={errors.password_confirmation?.message}
-                autoComplete="password"
-              />
-            )}
-            name="password_confirmation"
-          />
-          <Controller
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                label="Confirmacao sua nova senha"
+                label="Confirme sua nova senha"
                 placeholder="Confirme sua senha aqui"
                 secureTextEntry
                 value={value}
                 onChangeText={onChange}
-                errorMessage={errors.password_confirmation?.message}
+                errorMessage={errors.confirmPassword?.message}
                 autoComplete="password"
               />
             )}
-            name="password_confirmation"
+            name="confirmPassword"
           />
-          <Button onPress={handleSubmit(changePassword)}>
+          <Button onPress={handleSubmit(handleChangePassword)}>
             Salvar Alterações
           </Button>
           <Text style={{ textAlign: "center" }}>
             Enviaremos um email de confirmação
           </Text>
         </VStack>
-
-        {/* </SafeAreaView> */}
       </SafeAreaView>
     </Flex>
   );
