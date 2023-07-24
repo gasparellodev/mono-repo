@@ -1,3 +1,5 @@
+import { CourtModel } from "./courts";
+
 export type NearbyArenasRequest = {
   latitude: number;
   longitude: number;
@@ -9,6 +11,11 @@ export type SearchArenasByNameRequest = {
   longitude: number;
 };
 
+export type AvailableTimesArenaRequest = {
+  latitude: number;
+  longitude: number;
+};
+
 export type ArenaModel = {
   id: string;
   name: string;
@@ -16,4 +23,10 @@ export type ArenaModel = {
   numberStar: number;
   numberAviations: number;
   distance: number;
+};
+
+export type ArenaModelAvailableTime = {
+  id: string;
+  name: string;
+  courts: CourtModel[];
 };

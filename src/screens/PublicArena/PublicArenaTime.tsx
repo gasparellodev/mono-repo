@@ -4,51 +4,86 @@ import { AppNavigationRoutesProps } from "@routes/app.routes";
 import { formatCurrency } from "@utils/Formatters";
 import { TouchableOpacity, View } from "react-native";
 import { Text, useTheme } from "react-native-paper";
+import { CourtModel } from "src/interfaces/home/courts";
 
 interface PublicArenaTime {
   isSelected?: boolean;
-  details: {
-    time: string;
-    date: Date;
-    place: string;
-    sport: string;
-    price: number;
-  }
+  details: CourtModel & { date: Date; time: string };
   onSelect: (time: string) => void;
 }
 
-export function PublicArenaTime({ isSelected = false, details, onSelect }: PublicArenaTime) {
+export function PublicArenaTime({
+  isSelected = false,
+  details,
+  onSelect,
+}: PublicArenaTime) {
   const { colors } = useTheme();
-  const { time, place, sport, price } = details;
+
   const navigation = useNavigation<AppNavigationRoutesProps>();
 
   function handleSelectTime() {
-    onSelect(time);
+    onSelect(details.time);
 
-    navigation.navigate('scheduleArena', { arena: {
-      ...details,
-      date: details.date.toISOString()
-    } });
+    navigation.navigate("scheduleArena", {
+      arena: {
+        ...details,
+        date: details.date.toISOString(),
+      },
+    });
   }
 
   return (
     <TouchableOpacity
-      style={{ backgroundColor: isSelected ? colors.surfaceVariant : 'transparent', height: 64, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 16, gap: 16 }}
+      style={{
+        backgroundColor: isSelected ? colors.surfaceVariant : "transparent",
+        height: 64,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingHorizontal: 16,
+        gap: 16,
+      }}
       activeOpacity={0.5}
       onPress={handleSelectTime}
     >
-      <Text style={{ fontFamily: 'Poppins_700Bold', color: colors.onSurfaceVariant }}>{time}</Text>
+      <Text
+        style={{
+          fontFamily: "Poppins_700Bold",
+          color: colors.onSurfaceVariant,
+        }}
+      >
+        {details.time}
+      </Text>
       <View style={{ flex: 1 }}>
-        <Text style={{ fontFamily: 'Poppins_700Bold', fontSize: 12, color: colors.onSurfaceVariant  }}>{place}</Text>
-        <Text style={{ fontSize: 12, color: colors.onSurfaceVariant }}>{sport}</Text>
+        <Text
+          style={{
+            fontFamily: "Poppins_700Bold",
+            fontSize: 12,
+            color: colors.onSurfaceVariant,
+          }}
+        >
+          {details.name}
+        </Text>
+        <Text style={{ fontSize: 12, color: colors.onSurfaceVariant }}>
+          {details.sport}
+        </Text>
       </View>
       <View style={{ flex: 1 }}>
-        <Text style={{ fontFamily: 'Poppins_700Bold', fontSize: 12, color: colors.onSurfaceVariant  }}>Valor</Text>
-        <Text style={{ fontSize: 12, color: colors.onSurfaceVariant }}>{
-          formatCurrency(price)
-        }</Text>
+        <Text
+          style={{
+            fontFamily: "Poppins_700Bold",
+            fontSize: 12,
+            color: colors.onSurfaceVariant,
+          }}
+        >
+          Valor
+        </Text>
+        <Text style={{ fontSize: 12, color: colors.onSurfaceVariant }}>
+          {/* ToDo: Não vem esse dado da API */}
+          {formatCurrency(0)}
+        </Text>
       </View>
       <Feather name="arrow-right" size={24} color={colors.onSurfaceVariant} />
     </TouchableOpacity>
-  )
+  );
 }
