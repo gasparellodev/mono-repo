@@ -17,8 +17,8 @@ import {
 } from "react";
 import { UserDTO } from "../dtos/UserDTO";
 import { api } from "@services/api";
-import { AxiosError } from "axios";
 import { AuthIntegration } from "@services/integrations/AuthIntegration";
+import { AppError } from "@utils/AppError";
 
 export type AuthContextDataProps = {
   user: UserDTO;
@@ -93,25 +93,39 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   }
 
   const refreshToken = useCallback(
-    async (error: AxiosError) => {
-      console.log("error: ", error);
-      console.log("REFRESH");
+    async (error: any) => {
+      if (!error?.response?.data) return;
 
-      try {
-        const data = await authIntegration.refreshToken({});
+      if (error?.response?.data?.message === "token_expired") {
+        try {
+          const data = await authIntegration.refreshToken({});
 
-        if (data.user && data.access_token) {
-          setIsLoadingUserStorage(true);
+          if (data?.user && data?.access_token) {
+            setIsLoadingUserStorage(true);
 
-          await storageAuthToken(data.access_token);
-          await storageUserSave(data.user);
+            await storageAuthToken(data.access_token);
+            await storageUserSave(data.user);
 
-          await userAndTokenUpdate(data.user, data.access_token);
+            await userAndTokenUpdate(data.user, data.access_token);
+
+            return Promise.resolve(
+              await api.request({
+                ...error.response.config,
+                headers: { Authorization: `Bearer ${data.access_token}` },
+              })
+            );
+          }
+        } catch {
+          signOut();
+          return Promise.reject(error);
         }
-      } catch {
-        signOut();
-        return Promise.reject(error);
       }
+
+      if (error?.response?.data) {
+        return Promise.reject(new AppError(error.response.data.message));
+      }
+
+      return Promise.reject(error);
     },
     [user]
   );
