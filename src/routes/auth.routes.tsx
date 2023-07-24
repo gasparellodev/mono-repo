@@ -1,3 +1,4 @@
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
@@ -17,9 +18,14 @@ const { Navigator, Screen } = createNativeStackNavigator<AuthRoutes>();
 
 export function AuthRoutes() {
   return (
-    <Navigator screenOptions={{ headerShown: false }} initialRouteName="signIn">
-      <Screen name="signIn" component={SignIn} />
-      <Screen name="signUpStack" component={SignUpStack} />
-    </Navigator>
+    <BottomSheetModalProvider>
+      <Navigator
+        screenOptions={{ headerShown: false }}
+        initialRouteName="signIn"
+      >
+        <Screen name="signIn" component={SignIn} />
+        <Screen name="signUpStack" component={SignUpStack} />
+      </Navigator>
+    </BottomSheetModalProvider>
   );
 }
