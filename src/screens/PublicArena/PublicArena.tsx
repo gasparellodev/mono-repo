@@ -13,7 +13,6 @@ import dayjs from "dayjs";
 import { AppHeader } from "@components/AppHeader";
 import { AvailableSport } from "../../enums/available-sport.enum";
 
-
 function getUpcomingDays(baseDay: Date) {
   const baseDate = dayjs(baseDay);
 
@@ -57,8 +56,9 @@ export function PublicArena() {
   }
 
   const courts = arena.courts.map((court) => {
-    const time =
-      court.availableTimes[0].hour.toString().padStart(2, "0") + ":00";
+    const availableTimes = court.availableTimes.map(
+      (time) => time.hour.toString().padStart(2, "0") + ":00"
+    );
 
     const mappedSport = () => {
       switch (court.sport) {
@@ -86,7 +86,7 @@ export function PublicArena() {
     return {
       ...court,
       sport: mappedSport(),
-      time,
+      availableTimes,
     };
   });
 
@@ -143,9 +143,10 @@ export function PublicArena() {
               isSelected={id === selectedTimeId}
               key={id}
               details={{
-                id,
                 ...details,
+                id,
                 date: selectedDay,
+                sport: details.sport,
               }}
               onSelect={setSelectedTimeId}
             />
