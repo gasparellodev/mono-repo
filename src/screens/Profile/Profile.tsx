@@ -17,15 +17,6 @@ export function Profile() {
 
   const navigation = useNavigation<AppNavigationRoutesProps>();
 
-  // const user = {
-  //   name: "Luiz Henrique dos Santos",
-  //   nickname: "Louizinho",
-  //   avatar_url:
-  //     ,
-  //   banner_url: ,
-  //   game: "Beach Tennis",
-  // };
-
   function handleEditProfile() {
     navigation.navigate("settingProfile");
   }

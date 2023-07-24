@@ -1,4 +1,5 @@
 import { api } from "@services/api";
+import { ChangePasswordDTO } from "src/dtos/ChangePasswordDTO";
 import { CreateUserDTO } from "src/dtos/CreateUserDTO";
 import { LoginUserDTO } from "src/dtos/LoginUserDTO";
 import { AuthModel, IAuth } from "src/interfaces/auth";
@@ -23,5 +24,15 @@ export class AuthIntegration implements IAuth {
   refreshToken: IPostIntegration<{}, AuthModel> = async () => {
     const { data } = await api.post(`${this.ROUTE}/refresh-access`);
     return data;
+  };
+
+  changePassword: IPostIntegration<ChangePasswordDTO> = async (body) => {
+    const payload = {
+      last_password: body.oldPassword,
+      password: body.password,
+      password_confirmation: body.confirmPassword,
+    };
+
+    await api.patch(`${this.ROUTE}/update-password`, payload);
   };
 }
