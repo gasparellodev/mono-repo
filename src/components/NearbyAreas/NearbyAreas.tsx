@@ -16,8 +16,8 @@ export function NearbyAreas({
     <TouchableOpacity
       style={{
         backgroundColor: colors.surfaceContainerHighest,
-        height: 340,
-        maxWidth: 280,
+        height: 300,
+        width: 230,
         flexDirection: "column",
         padding: 8,
         gap: 4,
