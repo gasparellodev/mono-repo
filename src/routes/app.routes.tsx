@@ -15,7 +15,7 @@ import { MyArenaConfigs } from "@screens/MyArena/MyArenaConfigs";
 import { MyArenaCourtRegister } from "@screens/MyArena/MyArenaCourtRegister";
 import { MySchedule } from "@screens/MySchedule/MySchedule";
 import { Notifications } from "@screens/Notifications/Notifications";
-import { Password } from "@screens/Password/Password";
+import { Password } from "@screens/Password";
 import { Profile } from "@screens/Profile/Profile";
 import { PublicArena } from "@screens/PublicArena/PublicArena";
 import { ScheduleArena } from "@screens/ScheduleArena/ScheduleArena";

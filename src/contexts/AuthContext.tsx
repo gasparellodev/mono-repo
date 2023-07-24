@@ -8,10 +8,17 @@ import {
   storageAuthTokenGet,
   storageAuthTokenRemove,
 } from "@storage/storageAuthToken";
-import { createContext, ReactNode, useEffect, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { UserDTO } from "../dtos/UserDTO";
 import { api } from "@services/api";
-import { SignInIntegration } from "@services/integrations";
+import { AxiosError } from "axios";
+import { AuthIntegration } from "@services/integrations/AuthIntegration";
 
 export type AuthContextDataProps = {
   user: UserDTO;
@@ -28,7 +35,7 @@ export const AuthContext = createContext<AuthContextDataProps>(
   {} as AuthContextDataProps
 );
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
-  const signInIntegration = new SignInIntegration();
+  const authIntegration = new AuthIntegration();
 
   const [user, setUser] = useState<UserDTO>({} as UserDTO);
   const [isLoadingUserStorageData, setIsLoadingUserStorage] = useState(true);
@@ -40,7 +47,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   async function singIn(email: string, password: string) {
     try {
-      const data = await signInIntegration.execute({ email, password });
+      const data = await authIntegration.signIn({ email, password });
       if (data.user && data.access_token) {
         setIsLoadingUserStorage(true);
 
@@ -84,6 +91,34 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
       setIsLoadingUserStorage(false);
     }
   }
+
+  const refreshToken = useCallback(
+    async (error: AxiosError) => {
+      console.log("error: ", error);
+      console.log("REFRESH");
+
+      try {
+        const data = await authIntegration.refreshToken({});
+
+        if (data.user && data.access_token) {
+          setIsLoadingUserStorage(true);
+
+          await storageAuthToken(data.access_token);
+          await storageUserSave(data.user);
+
+          await userAndTokenUpdate(data.user, data.access_token);
+        }
+      } catch {
+        signOut();
+        return Promise.reject(error);
+      }
+    },
+    [user]
+  );
+
+  useState(() => {
+    api.interceptors.response.use((res) => res, refreshToken);
+  });
 
   useEffect(() => {
     loadUserData();

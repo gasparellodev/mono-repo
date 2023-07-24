@@ -3,7 +3,7 @@ import { VStack } from "@components/VStack";
 import { HeaderAuthPage } from "@components/HeaderAuthPage";
 import { Button } from "@components/Forms/Button";
 import { RadioButton, Text } from "react-native-paper";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useCreateUser } from "@hooks/useCreateUser";
 import { Role } from "../../enums/role.enum";
 import { Controller, useForm } from "react-hook-form";
@@ -15,14 +15,14 @@ import { AppError } from "@utils/AppError";
 import { getMessage } from "@utils/GetMessage";
 import { useNavigation } from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
-import { SignUpIntegration } from "@services/integrations";
+import { AuthIntegration } from "@services/integrations/AuthIntegration";
 
 type FormDataProps = {
   role: Role;
 };
 export function SignUpThirdStep() {
   const navigation = useNavigation<AuthNavigatorRoutesProps>();
-  const signUpIntegration = new SignUpIntegration();
+  const authIntegration = new AuthIntegration();
 
   const [loading, setLoading] = useState(false);
   const { setCreateUserData, createUserData } = useCreateUser();
@@ -44,7 +44,7 @@ export function SignUpThirdStep() {
         return updatedData;
       });
 
-      await signUpIntegration.execute(createUserData);
+      await authIntegration.signUp(createUserData);
 
       toast.success("Conta criada com sucesso");
       navigation.navigate("signIn");
@@ -58,15 +58,6 @@ export function SignUpThirdStep() {
     } finally {
       setLoading(false);
     }
-  }
-
-  useEffect(() => {
-    handleCallRegister();
-  }, [createUserData]);
-
-  async function handleCallRegister() {
-    console.log(createUserData);
-    setTimeout(() => setLoading(false), 1000);
   }
 
   return (
