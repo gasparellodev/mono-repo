@@ -4,21 +4,24 @@ import { AppNavigationRoutesProps } from "@routes/app.routes";
 import { Image, TouchableOpacity } from "react-native";
 import { Text } from "react-native-paper";
 import { useAppTheme } from "../providers/ThemeProvider";
+import { ArenaModelAvailableTime } from "src/interfaces/home/arenas";
 
 type AvailableTimeCardProps = {
-  id: string;
-  name: string;
-  image: string;
-  width: any,
-  height: any
-}
+  arena: ArenaModelAvailableTime;
+  width: any;
+  height: any;
+};
 
-export function AvailableTimeCard({ id, name, image, width, height }: AvailableTimeCardProps) {
+export function AvailableTimeCard({
+  arena,
+  width,
+  height,
+}: AvailableTimeCardProps) {
   const { colors } = useAppTheme();
   const navigation = useNavigation<AppNavigationRoutesProps>();
 
   function handleSelectHour() {
-    navigation.navigate('publicArena', { arena: { id, name } });
+    navigation.navigate("publicArena", { arena });
   }
 
   return (
@@ -34,7 +37,7 @@ export function AvailableTimeCard({ id, name, image, width, height }: AvailableT
       >
         <Image
           source={{
-            uri: image,
+            uri: `https://ui-avatars.com/api/?name=${arena.name}`,
           }}
           style={{ height: 80, width: 80, borderRadius: 10 }}
         />
@@ -46,7 +49,7 @@ export function AvailableTimeCard({ id, name, image, width, height }: AvailableT
           style={{ padding: 5 }}
         >
           <Text variant="titleMedium" ellipsizeMode="tail" numberOfLines={1}>
-            {name}
+            {arena.name}
           </Text>
           <Text variant="bodyMediumBold" style={{ color: colors.primary }}>
             Ver agenda
