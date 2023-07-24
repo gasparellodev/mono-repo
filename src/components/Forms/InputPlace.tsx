@@ -31,7 +31,6 @@ export function InputPlace({ value = "", onSelect, ...rest }: Props) {
   const [showPredictions, setShowPredictions] = useState(false);
 
   const onChangeText = async () => {
-    console.log("value: ", value);
     if (value.trim() === "") {
       setShowPredictions(false);
       return;
