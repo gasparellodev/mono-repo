@@ -187,7 +187,7 @@ export function EditProfile() {
           <Button
             onPress={handleSubmit(handleChangeProfile)}
             loading={loading}
-            disabled={!favoriteSport.key || !favoriteTime.key}
+            disabled={!favoriteSport.key || !favoriteTime.key || loading}
           >
             Salvar Alterações
           </Button>
