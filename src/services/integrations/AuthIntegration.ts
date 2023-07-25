@@ -2,11 +2,15 @@ import { api } from "@services/api";
 import { ChangePasswordDTO } from "src/dtos/ChangePasswordDTO";
 import { CreateUserDTO } from "src/dtos/CreateUserDTO";
 import { LoginUserDTO } from "src/dtos/LoginUserDTO";
+import { ProfileDTO } from "src/dtos/ProfileDTO";
+import { UserDTO } from "src/dtos/UserDTO";
 import { AuthModel, IAuth } from "src/interfaces/auth";
+import { IGetIntegration } from "src/interfaces/getIntegration";
 import { IPostIntegration } from "src/interfaces/postIntegration";
 
 export class AuthIntegration implements IAuth {
   private readonly ROUTE = "/auth";
+  private readonly ROUTE_USER = "/users";
 
   signIn: IPostIntegration<LoginUserDTO, AuthModel> = async (body) => {
     const { data } = await api.post(`${this.ROUTE}/sign-in`, {
@@ -34,5 +38,33 @@ export class AuthIntegration implements IAuth {
     };
 
     await api.patch(`${this.ROUTE}/update-password`, payload);
+  };
+
+  changeProfile: IPostIntegration<ProfileDTO> = async (body) => {
+    const payload = {
+      name: body.name,
+      nickname: body.nickname,
+      favorite_sport: body.favorite_sport,
+      favorite_time: body.favorite_time,
+    };
+
+    await api.patch(`${this.ROUTE_USER}`, payload);
+  };
+
+  me: IGetIntegration<{}, UserDTO> = async () => {
+    const { data } = await api.get(`${this.ROUTE}/me`);
+    return {
+      id: data.id,
+      name: data.name,
+      username: data.username,
+      email: data.email,
+      favorite_sport: data.favorite_sport,
+      favorite_time: data.favorite_time,
+      avatar: data.avatar,
+      cpf: data.cpf,
+      cellphone: data.cellphone,
+      nickname: data.nickname,
+      role: data.role ?? "PLAYER",
+    };
   };
 }

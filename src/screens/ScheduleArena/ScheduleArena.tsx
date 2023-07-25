@@ -15,12 +15,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ScheduleDTO } from "src/dtos/ScheduleDTO";
 import { ScheduleStatus } from "./ScheduleStatus";
 import { ScheduleUser } from "./ScheduleUser";
+import { useAppProps } from "@hooks/useAppProps";
 
 export function ScheduleArena() {
   const route = useRoute();
-  const navigation = useNavigation<AppNavigationRoutesProps>();
   const { arena } = route.params as AppRoutes["scheduleArena"];
   const { colors } = useTheme();
+  const { schedule } = useAppProps();
 
   const [confirmedUsers, setConfirmedUsers] = useState([
     {
@@ -46,8 +47,8 @@ export function ScheduleArena() {
     console.log("COMO CHEGAR");
   }
 
-  function reserveTime() {
-    navigation.navigate("mySchedule");
+  async function reserveTime() {
+    await schedule.add(arena);
   }
 
   function inviteFriend() {
@@ -61,7 +62,7 @@ export function ScheduleArena() {
   const statuses = {
     confirm: {
       color: colors.tertiaryContainer,
-      title: arena.place,
+      title: arena.name,
       subtitle: arena.sport,
       primaryButton: "Reservar horário",
       secondaryButton: null,
@@ -120,7 +121,7 @@ export function ScheduleArena() {
                   marginVertical: 4,
                 }}
               >
-                Valor: {formatCurrency(arena.price)}
+                Valor: {formatCurrency(10)}
               </Text>
             </>
           ) : (

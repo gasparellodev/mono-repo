@@ -36,7 +36,7 @@ export function InputPlace({ value = "", onSelect, ...rest }: Props) {
       return;
     }
 
-    const apiUrl = `${GOOGLE_PACES_API_BASE_URL}/autocomplete/json?key=GOOGLE_API_KEY&input=${value}`;
+    const apiUrl = `${GOOGLE_PACES_API_BASE_URL}/autocomplete/json?key=AIzaSyDQy847YBsAoRP7a-gpUdttldqW1_14tzQ&input=${value}`;
     try {
       const result = await axios.request({
         method: "get",
@@ -56,7 +56,7 @@ export function InputPlace({ value = "", onSelect, ...rest }: Props) {
   };
 
   const onPredictionTapped = async (placeId: string) => {
-    const apiUrl = `${GOOGLE_PACES_API_BASE_URL}/details/json?key=GOOGLE_API_KEY&place_id=${placeId}`;
+    const apiUrl = `${GOOGLE_PACES_API_BASE_URL}/details/json?key=AIzaSyDQy847YBsAoRP7a-gpUdttldqW1_14tzQ&place_id=${placeId}`;
     try {
       const result = await axios.request({
         method: "get",
