@@ -22,8 +22,7 @@ import { ScheduleArena } from "@screens/ScheduleArena/ScheduleArena";
 import { Search } from "@screens/Search";
 import { Platform, TouchableWithoutFeedback, View } from "react-native";
 import { BottomNavigation, TouchableRipple } from "react-native-paper";
-import { ArenaDTO } from "src/dtos/ArenaDTO";
-import { ScheduleDTO } from "src/dtos/ScheduleDTO";
+import { ScheduleArenaCourtDTO } from "src/dtos/ScheduleDTO";
 import { ArenaModelAvailableTime } from "src/interfaces/home/arenas";
 
 export type AppRoutes = {
@@ -42,7 +41,7 @@ export type AppRoutes = {
     arena: ArenaModelAvailableTime;
   };
   scheduleArena: {
-    arena: ArenaDTO & Partial<ScheduleDTO>;
+    arena: ScheduleArenaCourtDTO;
   };
   notifications: undefined;
 };

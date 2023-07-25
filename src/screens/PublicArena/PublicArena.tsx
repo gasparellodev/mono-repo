@@ -142,7 +142,7 @@ export function PublicArena() {
             <PublicArenaTime
               isSelected={id === selectedTimeId}
               key={id}
-              details={{
+              court={{
                 ...details,
                 id,
                 date: selectedDay,

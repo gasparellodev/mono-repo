@@ -1,10 +1,15 @@
+import { toast } from "@backpackapp-io/react-native-toast";
+import { ArenaIntegration } from "@services/integrations/ArenaIntegration";
+import { AppError } from "@utils/AppError";
+import { getMessage } from "@utils/GetMessage";
 import { ReactNode, createContext, useEffect, useState } from "react";
-import { ScheduleDTO } from "src/dtos/ScheduleDTO";
+import { ScheduleArenaCourtDTO } from "src/dtos/ScheduleDTO";
+import { ScheduleArenaModel } from "src/interfaces/home/arenas";
 
 export type AppPropsDataProps = {
   schedule: {
-    list: ScheduleDTO[];
-    add: (schedule: ScheduleDTO) => Promise<void>;
+    list: ScheduleArenaModel[];
+    add: (schedule: ScheduleArenaCourtDTO) => Promise<void>;
     isLoading: boolean;
   };
 };
@@ -17,16 +22,26 @@ export const AppPropsContext = createContext<AppPropsDataProps>(
   {} as AppPropsDataProps
 );
 export function AppPropsProvider({ children }: AppPropsProviderProps) {
-  const [schedulesList, setSchedulesList] = useState<ScheduleDTO[]>([]);
+  const arenaIntegration = new ArenaIntegration();
+  const [schedulesList, setSchedulesList] = useState<ScheduleArenaModel[]>([]);
   const [isLoadingSchedulesList, setIsLoadingSchedulesList] = useState(true);
 
-  async function handleAddSchedule(schedule: ScheduleDTO) {
+  async function handleAddSchedule(court: ScheduleArenaCourtDTO) {
     try {
       setIsLoadingSchedulesList(true);
-      setSchedulesList((oldSchedulesList) => [...oldSchedulesList, schedule]);
-      // TODO: post schedule on backend
+      await arenaIntegration.scheduleArena({
+        courtId: court.id,
+        date: court.date,
+      });
+
+      toast.success("Agendamento criado com sucesso");
     } catch (error) {
-      throw error;
+      const isAppError = error instanceof AppError;
+      const title = isAppError
+        ? getMessage(error.message, "pt")
+        : "Não foi possível criar agendamento. Tente novamente mais tarde";
+
+      toast.error(title);
     } finally {
       setIsLoadingSchedulesList(false);
     }
@@ -35,35 +50,15 @@ export function AppPropsProvider({ children }: AppPropsProviderProps) {
   async function loadSchedulesList() {
     try {
       setIsLoadingSchedulesList(true);
-      // TODO: get schedulesList from backend
-      setSchedulesList([
-        {
-          status: "reserved",
-          date: "2021-06-04T18:00:00.000Z",
-          place: "Quadra 1",
-          price: 78,
-          sport: "Society 4",
-          time: "08:00",
-        },
-        {
-          status: "pending",
-          date: "2021-06-04T18:00:00.000Z",
-          place: "Quadra 2",
-          price: 79,
-          sport: "Basquete 5",
-          time: "09:00",
-        },
-        {
-          status: "cancelled",
-          date: "2021-06-04T18:00:00.000Z",
-          place: "Quadra 3",
-          price: 133,
-          sport: "Society 6",
-          time: "10:00",
-        },
-      ]);
+      const schedules = await arenaIntegration.getSchedules();
+      setSchedulesList(schedules);
     } catch (error) {
-      throw error;
+      const isAppError = error instanceof AppError;
+      const title = isAppError
+        ? getMessage(error.message, "pt")
+        : "Não foi listar quadras agendadas. Tente novamente mais tarde";
+
+      toast.error(title);
     } finally {
       setIsLoadingSchedulesList(false);
     }

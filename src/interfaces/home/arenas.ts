@@ -16,6 +16,11 @@ export type AvailableTimesArenaRequest = {
   longitude: number;
 };
 
+export type ScheduleArenaRequest = {
+  date: Date;
+  courtId: string;
+};
+
 export type ArenaModel = {
   id: string;
   name: string;
@@ -23,6 +28,16 @@ export type ArenaModel = {
   numberStar: number;
   numberAviations: number;
   distance: number;
+};
+
+export type ScheduleArenaModel = {
+  id: string;
+  date: string;
+  court: string;
+  court_id: string;
+  arena: string;
+  arena_id: string;
+  status: "confirm" | "reserved" | "pending" | "cancelled";
 };
 
 export type ArenaModelAvailableTime = {

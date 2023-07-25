@@ -9,7 +9,7 @@ import { Text, useTheme } from "react-native-paper";
 
 interface PublicArenaTime {
   isSelected?: boolean;
-  details: {
+  court: {
     date: Date;
     id: string;
     name: string;
@@ -21,7 +21,7 @@ interface PublicArenaTime {
 
 export function PublicArenaTime({
   isSelected = false,
-  details,
+  court,
   onSelect,
 }: PublicArenaTime) {
   const { colors } = useTheme();
@@ -35,8 +35,12 @@ export function PublicArenaTime({
 
     navigation.navigate("scheduleArena", {
       arena: {
-        ...details,
-        date: details.date.toISOString(),
+        id: court.id,
+        date: court.date,
+        name: court.name,
+        sport: court.sport,
+        time,
+        status: "confirm",
       },
     });
   }
@@ -64,10 +68,10 @@ export function PublicArenaTime({
               color: colors.onSurfaceVariant,
             }}
           >
-            {details.name}
+            {court.name}
           </Text>
           <Text style={{ fontSize: 12, color: colors.onSurfaceVariant }}>
-            {details.sport}
+            {court.sport}
           </Text>
         </View>
         <Feather
@@ -78,7 +82,7 @@ export function PublicArenaTime({
       </TouchableOpacity>
 
       {showTime &&
-        details.availableTimes.map((time) => (
+        court.availableTimes.map((time) => (
           <TouchableOpacity
             key={time}
             style={{

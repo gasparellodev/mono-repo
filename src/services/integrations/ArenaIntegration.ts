@@ -1,4 +1,5 @@
 import { api } from "@services/api";
+import { ScheduleDTO } from "src/dtos/ScheduleDTO";
 import { IGetIntegration } from "src/interfaces/getIntegration";
 import { IArena } from "src/interfaces/home";
 import {
@@ -7,8 +8,11 @@ import {
   SearchArenasByNameRequest,
   AvailableTimesArenaRequest,
   ArenaModelAvailableTime,
+  ScheduleArenaRequest,
+  ScheduleArenaModel,
 } from "src/interfaces/home/arenas";
 import { CourtAvailableTime, CourtModel } from "src/interfaces/home/courts";
+import { IPostIntegration } from "src/interfaces/postIntegration";
 
 export class ArenaIntegration implements IArena {
   private readonly ROUTE = "/arenas";
@@ -95,5 +99,30 @@ export class ArenaIntegration implements IArena {
     );
 
     return arenas;
+  };
+
+  scheduleArena: IPostIntegration<ScheduleArenaRequest> = async (body) => {
+    const payload = {
+      date: body.date,
+      court_id: body.courtId,
+    };
+
+    await api.post(this.ROUTE_RESERVATION, payload);
+  };
+
+  getSchedules: IGetIntegration<{}, ScheduleArenaModel[]> = async () => {
+    const { data } = await api.get(`${this.ROUTE_RESERVATION}/find-by-user`);
+
+    return data.map(
+      (schedule: any): ScheduleArenaModel => ({
+        id: schedule.id,
+        date: schedule.date,
+        court: schedule.court,
+        arena: schedule.arena,
+        court_id: schedule.court_id,
+        arena_id: schedule.arena_id,
+        status: schedule.status,
+      })
+    );
   };
 }

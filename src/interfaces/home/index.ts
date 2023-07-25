@@ -1,10 +1,13 @@
 import { IGetIntegration } from "../getIntegration";
+import { IPostIntegration } from "../postIntegration";
 import {
   NearbyArenasRequest,
   ArenaModel,
   SearchArenasByNameRequest,
   AvailableTimesArenaRequest,
   ArenaModelAvailableTime,
+  ScheduleArenaRequest,
+  ScheduleArenaModel,
 } from "./arenas";
 
 export interface IArena {
@@ -14,4 +17,6 @@ export interface IArena {
     AvailableTimesArenaRequest,
     ArenaModelAvailableTime[]
   >;
+  scheduleArena: IPostIntegration<ScheduleArenaRequest>;
+  getSchedules: IGetIntegration<{}, ScheduleArenaModel[]>;
 }
