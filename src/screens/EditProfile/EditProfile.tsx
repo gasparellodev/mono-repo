@@ -18,13 +18,13 @@ import { EditProfileSchema } from "@screens/schemas/edit-profile.schema";
 
 import { FavoriteSchedulesList } from "../../data/favorite-schedules-list";
 import { SportsList } from "../../data/sports-list";
-
-type FormDataProps = {
-  name: string;
-  nickname: string;
-  favorite_sport: string;
-  favorite_time: string;
-};
+import { ProfileDTO } from "src/dtos/ProfileDTO";
+import { AuthIntegration } from "@services/integrations/AuthIntegration";
+import { AppError } from "@utils/AppError";
+import { getMessage } from "@utils/GetMessage";
+import { toast } from "@backpackapp-io/react-native-toast";
+import { useNavigation } from "@react-navigation/native";
+import { AppNavigationRoutesProps } from "@routes/app.routes";
 
 type ModalDataProps = {
   key: string | null;
@@ -32,7 +32,9 @@ type ModalDataProps = {
 };
 
 export function EditProfile() {
-  const { user } = useAuth();
+  const authIntegration = new AuthIntegration();
+  const navigation = useNavigation<AppNavigationRoutesProps>();
+  const { user, me } = useAuth();
   const { colors } = useTheme();
   const [favoriteTime, setFavoriteTime] = useState<ModalDataProps>({
     key: null,
@@ -42,6 +44,7 @@ export function EditProfile() {
     key: null,
     value: "Selecione o esporte",
   });
+  const [loading, setLoading] = useState(false);
 
   const favoriteTimeBottomSheetRef = useRef<BottomSheetModal>(null);
   const favoriteSportBottomSheetRef = useRef<BottomSheetModal>(null);
@@ -55,7 +58,7 @@ export function EditProfile() {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormDataProps>({
+  } = useForm<ProfileDTO>({
     resolver: zodResolver(EditProfileSchema),
     defaultValues: {
       name: user.name,
@@ -65,14 +68,29 @@ export function EditProfile() {
     },
   });
 
-  const changePassword = (props: FormDataProps) => {
-    props = {
-      ...props,
-      favorite_sport: favoriteSport.key!,
-      favorite_time: favoriteTime.key!,
-    };
+  const handleChangeProfile = async (props: ProfileDTO) => {
+    try {
+      setLoading(true);
+      props = {
+        ...props,
+        favorite_sport: favoriteSport.key!,
+        favorite_time: favoriteTime.key!,
+      };
 
-    console.log(props);
+      await authIntegration.changeProfile(props);
+      await me();
+      toast.success("Perfil atualizado com sucesso");
+      navigation.navigate("profile");
+    } catch (error) {
+      const isAppError = error instanceof AppError;
+      const title = isAppError
+        ? getMessage(error.message, "pt")
+        : "Não foi possível atualizar conta. Tente novamente mais tarde";
+
+      toast.error(title);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -167,7 +185,8 @@ export function EditProfile() {
             name="favorite_time"
           />
           <Button
-            onPress={handleSubmit(changePassword)}
+            onPress={handleSubmit(handleChangeProfile)}
+            loading={loading}
             disabled={!favoriteSport.key || !favoriteTime.key}
           >
             Salvar Alterações

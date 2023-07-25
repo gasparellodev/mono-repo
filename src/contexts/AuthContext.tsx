@@ -19,12 +19,15 @@ import { UserDTO } from "../dtos/UserDTO";
 import { api } from "@services/api";
 import { AuthIntegration } from "@services/integrations/AuthIntegration";
 import { AppError } from "@utils/AppError";
+import { getMessage } from "@utils/GetMessage";
+import { toast } from "@backpackapp-io/react-native-toast";
 
 export type AuthContextDataProps = {
   user: UserDTO;
   singIn: (email: string, password: string) => Promise<void>;
   isLoadingUserStorageData: boolean;
   signOut: () => Promise<void>;
+  me: () => Promise<void>;
 };
 
 type AuthContextProviderProps = {
@@ -71,6 +74,27 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
       await storageAuthTokenRemove();
     } catch (error) {
       throw error;
+    } finally {
+      setIsLoadingUserStorage(false);
+    }
+  }
+
+  async function me() {
+    try {
+      const data = await authIntegration.me();
+      if (data.id) {
+        setIsLoadingUserStorage(true);
+
+        await storageUserSave(data);
+        setUser(data);
+      }
+    } catch (error) {
+      const isAppError = error instanceof AppError;
+      const title = isAppError
+        ? getMessage(error.message, "pt")
+        : "Não foi buscar dados do perfil. Tente novamente mais tarde";
+
+      toast.error(title);
     } finally {
       setIsLoadingUserStorage(false);
     }
@@ -145,6 +169,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         singIn,
         isLoadingUserStorageData,
         signOut,
+        me,
       }}
     >
       {children}
