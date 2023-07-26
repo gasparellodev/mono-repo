@@ -15,26 +15,9 @@ const ALT_SEARCH_PAGE_IMG = "Imagem de pessoas com lupa na mão";
 export function Search() {
   const { searchValue, setSearchValue, arenas, loading } = useSearch();
 
-  const renderListOrEmptyState = () => (
-    <Flex align="center" flex={1}>
-      {searchValue.length > 0 ? (
-        <FlatList
-          contentContainerStyle={{ paddingBottom: 16, gap: 16 }}
-          data={arenas}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <AvailableTimeCard
-              id={item.id}
-              name={item.name}
-              image={`https://ui-avatars.com/api/?name=${item.name}`}
-              height={80}
-              width="100%"
-            />
-          )}
-          style={{ width: "100%", flex: 1 }}
-          showsHorizontalScrollIndicator={false}
-        />
-      ) : (
+  const renderListOrEmptyState = () => {
+    if (!searchValue.trim()) {
+      return (
         <>
           <Image
             source={searchPageImage}
@@ -53,9 +36,38 @@ export function Search() {
             Encontre sua arena favorita
           </Text>
         </>
-      )}
-    </Flex>
-  );
+      );
+    }
+
+    return (
+      <Flex align="center" flex={1}>
+        {arenas.length ? (
+          <FlatList
+            contentContainerStyle={{ paddingBottom: 16, gap: 16 }}
+            data={arenas}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <AvailableTimeCard arena={item} height={80} width="100%" />
+            )}
+            style={{ width: "100%", flex: 1 }}
+            showsHorizontalScrollIndicator={false}
+          />
+        ) : (
+          <Text
+            style={{
+              textAlign: "center",
+              padding: 24,
+              fontSize: 18,
+              fontWeight: "bold",
+              color: "#F0F6E9",
+            }}
+          >
+            Não há arenas com nome "{searchValue}"
+          </Text>
+        )}
+      </Flex>
+    );
+  };
 
   return (
     <Flex flex={1}>

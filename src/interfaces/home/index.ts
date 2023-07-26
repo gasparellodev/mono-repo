@@ -12,7 +12,7 @@ import {
 
 export interface IArena {
   getNearbyArenas: IGetIntegration<NearbyArenasRequest, ArenaModel[]>;
-  getByName: IGetIntegration<SearchArenasByNameRequest, ArenaModel[]>;
+  getByName: IGetIntegration<SearchArenasByNameRequest, ArenaModelAvailableTime[]>;
   getAvailableTimes: IGetIntegration<
     AvailableTimesArenaRequest,
     ArenaModelAvailableTime[]

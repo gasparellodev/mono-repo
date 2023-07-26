@@ -5,7 +5,7 @@ import { ArenaIntegration } from "@services/integrations/ArenaIntegration";
 import { AppError } from "@utils/AppError";
 import { getMessage } from "@utils/GetMessage";
 import { useState } from "react";
-import { ArenaModel } from "src/interfaces/home/arenas";
+import { ArenaModelAvailableTime } from "src/interfaces/home/arenas";
 
 export const useSearch = () => {
   const { location, isGranted } = useLocalization();
@@ -13,7 +13,7 @@ export const useSearch = () => {
 
   const [searchValue, setSearchValue] = useState("");
 
-  const [arenas, setArenas] = useState<ArenaModel[]>([]);
+  const [arenas, setArenas] = useState<ArenaModelAvailableTime[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchArenas = async () => {

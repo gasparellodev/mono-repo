@@ -37,7 +37,7 @@ export class ArenaIntegration implements IArena {
     );
   };
 
-  getByName: IGetIntegration<SearchArenasByNameRequest, ArenaModel[]> = async (
+  getByName: IGetIntegration<SearchArenasByNameRequest, ArenaModelAvailableTime[]> = async (
     params
   ) => {
     const { data } = await api.get(`${this.ROUTE}/search`, {
@@ -49,13 +49,12 @@ export class ArenaIntegration implements IArena {
     });
 
     return data.map(
-      (arena: any): ArenaModel => ({
+      (arena: any): ArenaModelAvailableTime => ({
         id: arena.id,
         name: arena.name,
-        description: arena.description ?? "",
         distance: arena.distance,
-        numberAviations: arena.numberAviations ?? 0,
-        numberStar: arena.numberStar ?? 0,
+        image: arena.image,
+        courts: []
       })
     );
   };
