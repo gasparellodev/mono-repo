@@ -16,10 +16,10 @@ export function AvailableTimeCardList({ availableTimes }: Props) {
           padding: 24,
           fontSize: 18,
           fontWeight: "bold",
-          color: "#F0F6E9",
+          color: "#37474F",
         }}
       >
-        Não há arenas com horário disponíveis
+        Não há arenas com horários disponíveis
       </Text>
     );
   }

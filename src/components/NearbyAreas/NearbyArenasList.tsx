@@ -16,7 +16,7 @@ export function NearbyArenasList({ nearbyArenas }: Props) {
           padding: 24,
           fontSize: 18,
           fontWeight: "bold",
-          color: "#F0F6E9",
+          color: "#37474F",
         }}
       >
         Não há arenas próximas a você

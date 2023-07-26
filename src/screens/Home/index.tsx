@@ -54,7 +54,7 @@ export function Home() {
                   marginVertical: 16,
                   fontSize: 20,
                   fontWeight: "bold",
-                  color: "#F0F6E9",
+                  color: "#37474F",
                 }}
               >
                 Horários disponíveis
@@ -68,7 +68,7 @@ export function Home() {
                   marginVertical: 16,
                   fontSize: 20,
                   fontWeight: "bold",
-                  color: "#F0F6E9",
+                  color: "#37474F",
                 }}
               >
                 Arenas mais próxima de você

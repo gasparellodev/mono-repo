@@ -47,7 +47,8 @@ export function FilterGroup({
               style={{
                 ...styleChip,
                 marginRight: 4,
-                backgroundColor: colors.backdrop,
+                backgroundColor: "#F9FAF3",
+
                 borderWidth: 1,
               }}
               onPress={handleOpenListOrder}
@@ -75,8 +76,8 @@ export function FilterGroup({
             style={{
               ...styleChip,
               marginRight: 4,
-              backgroundColor: colors.backdrop,
-              borderWidth: 1,
+              backgroundColor: "#F9FAF3",
+              borderWidth: 1.5,
             }}
             onPress={() => selectChip(item.key)}
             selected={selected === item.key}
