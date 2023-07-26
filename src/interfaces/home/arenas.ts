@@ -43,5 +43,7 @@ export type ScheduleArenaModel = {
 export type ArenaModelAvailableTime = {
   id: string;
   name: string;
+  distance?: number;
+  image?: string;
   courts: CourtModel[];
 };

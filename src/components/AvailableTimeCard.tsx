@@ -37,7 +37,7 @@ export function AvailableTimeCard({
       >
         <Image
           source={{
-            uri: `https://ui-avatars.com/api/?name=${arena.name}`,
+            uri:  arena.image ? arena.image : `https://ui-avatars.com/api/?name=${arena.name}`,
           }}
           style={{ height: 80, width: 80, borderRadius: 10 }}
         />
