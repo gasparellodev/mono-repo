@@ -76,11 +76,11 @@ export function FilterGroup({
             style={{
               ...styleChip,
               marginRight: 4,
-              backgroundColor: "#F9FAF3",
-              borderWidth: 1.5,
+              backgroundColor: selected === item.key ? "#33BE3D" : "#F9FAF3",
+              borderWidth: selected === item.key ? 0 : 1.5,
             }}
+            textStyle={{color: selected === item.key ? "#fff" : "#5D5F5A"}}
             onPress={() => selectChip(item.key)}
-            selected={selected === item.key}
           >
             {item.label}
           </Chip>

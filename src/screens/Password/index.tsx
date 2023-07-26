@@ -25,7 +25,6 @@ export function Password() {
 
   return (
     <Flex flex={1} backgroundColor={colors.background}>
-      <SafeAreaView style={{ flex: 1 }}>
         <BackHeader />
         <View
           style={{
@@ -111,7 +110,6 @@ export function Password() {
             Enviaremos um email de confirmação
           </Text>
         </VStack>
-      </SafeAreaView>
     </Flex>
   );
 }

@@ -62,4 +62,12 @@ export const fonts = {
     letterSpacing: 0.15,
     lineHeight: 24,
   },
+  
+  bodyBoldMedium: {
+    fontFamily: "Poppins_700Bold",
+    fontSize: 14,
+    fontWeight: "700",
+    letterSpacing: 0.25,
+    lineHeight: 20,
+  },
 };

@@ -22,6 +22,7 @@ import { Routes } from "@routes/index";
 import { Toasts } from "@backpackapp-io/react-native-toast";
 import { AuthContextProvider } from "@contexts/AuthContext";
 import { AppPropsProvider } from "@contexts/AppPropsContext";
+import { StatusBar } from 'expo-status-bar';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -59,7 +60,11 @@ export default function App() {
 
   return (
     <ThemeProvider>
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={{ 
+        flex: 1, 
+        backgroundColor: "rgb(222, 228, 216)"
+      }}>
+
         <AuthContextProvider>
           <AppPropsProvider>
             <Routes />

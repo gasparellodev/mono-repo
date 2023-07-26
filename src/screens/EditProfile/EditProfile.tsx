@@ -95,7 +95,6 @@ export function EditProfile() {
 
   return (
     <Flex flex={1} backgroundColor={colors.background}>
-      <SafeAreaView style={{ flex: 1 }}>
         <BackHeader />
         <View
           style={{
@@ -206,7 +205,6 @@ export function EditProfile() {
           onSelect={(value, key) => setFavoriteTime({ key, value })}
           ref={favoriteTimeBottomSheetRef}
         />
-      </SafeAreaView>
     </Flex>
   );
 }

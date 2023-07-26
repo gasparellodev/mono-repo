@@ -32,7 +32,6 @@ export function MySchedule() {
 
   return (
     <Flex flex={1}>
-      <SafeAreaView style={{ flex: 1 }}>
         <AppHeader title="Minha agenda" />
         <VStack>
           <FilterGroup
@@ -76,7 +75,6 @@ export function MySchedule() {
             />
           </View>
         )}
-      </SafeAreaView>
     </Flex>
   );
 }

@@ -39,7 +39,7 @@ export function UserLocation() {
       justify="space-between"
       align="center"
       gap={8}
-      height={56}
+      height={60}
     >
       <TouchableOpacity
         style={{

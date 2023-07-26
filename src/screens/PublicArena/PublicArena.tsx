@@ -92,7 +92,6 @@ export function PublicArena() {
 
   return (
     <Flex flex={1} backgroundColor={colors.background}>
-      <SafeAreaView>
         <AppHeader title={arena.name} />
         <Flex
           direction="row"
@@ -152,7 +151,6 @@ export function PublicArena() {
             />
           ))}
         </ScrollView>
-      </SafeAreaView>
     </Flex>
   );
 }

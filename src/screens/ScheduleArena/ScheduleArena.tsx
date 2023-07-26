@@ -102,7 +102,6 @@ export function ScheduleArena() {
 
   return (
     <Flex flex={1} backgroundColor={colors.background}>
-      <SafeAreaView style={{ flex: 1 }}>
         <BackHeader />
         <ScheduleStatus {...statusData} />
         <Flex gap={4} paddingX={16} paddingY={24}>
@@ -156,7 +155,6 @@ export function ScheduleArena() {
             </Button>
           ) : null}
         </Flex>
-      </SafeAreaView>
     </Flex>
   );
 }

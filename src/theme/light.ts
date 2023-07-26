@@ -1,6 +1,6 @@
 export const light = {
   colors: {
-    primary: "rgb(0, 110, 20)",
+    primary: "rgba(51, 190, 61, 1)",
     onPrimary: "rgb(255, 255, 255)",
     primaryContainer: "rgb(152, 249, 142)",
     onPrimaryContainer: "rgb(0, 34, 2)",
@@ -16,7 +16,7 @@ export const light = {
     onError: "rgb(255, 255, 255)",
     errorContainer: "rgb(255, 218, 214)",
     onErrorContainer: "rgb(65, 0, 2)",
-    background: "rgb(252, 253, 246)",
+    background: "rgb(249, 250, 243)",
     onBackground: "rgb(26, 28, 25)",
     surface: "rgb(252, 253, 246)",
     onSurface: "rgb(26, 28, 25)",
@@ -32,7 +32,7 @@ export const light = {
     elevation: {
       level0: "transparent",
       level1: "rgb(239, 246, 235)",
-      level2: "rgb(232, 242, 228)",
+      level2: "rgb(222, 228, 216)",
       level3: "rgb(224, 237, 221)",
       level4: "rgb(222, 236, 219)",
       level5: "rgb(217, 233, 214)",

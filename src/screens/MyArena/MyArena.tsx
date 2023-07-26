@@ -39,7 +39,6 @@ export function MyArena() {
 
   return (
     <Flex flex={1}>
-      <SafeAreaView style={{ flex: 1 }}>
         <VStack flex={1}>
           <AppHeader title="Minha arena" />
           {arena ? (
@@ -76,7 +75,6 @@ export function MyArena() {
             </VStack>
           )}
         </VStack>
-      </SafeAreaView>
     </Flex>
   );
 }

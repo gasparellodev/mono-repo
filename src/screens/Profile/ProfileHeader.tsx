@@ -2,6 +2,8 @@ import { Flex } from "@components/Flex";
 import { Dimensions, Image, View } from "react-native";
 import { useTheme } from "react-native-paper";
 
+import HeaderProfileImage from "@assets/headerProfile.png";
+
 interface ProfileHeaderProps {
   avatar_url: string;
   banner_url: string;
@@ -18,8 +20,9 @@ export function ProfileHeader({ avatar_url, banner_url }: ProfileHeaderProps) {
           width: "100%",
           height: 64,
           position: "absolute",
+          backgroundColor: '#DEE4D8'
         }}
-        source={{ uri: banner_url }}
+        source={HeaderProfileImage}
       />
       <View style={{ position: 'relative' }}>
         <Image

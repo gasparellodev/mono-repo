@@ -2,6 +2,8 @@ import { HelperText, TextInput, TextInputProps } from "react-native-paper";
 import { ViewStyle } from "react-native";
 import { Flex } from "@components/Flex";
 
+import { useAppTheme } from "../../providers/ThemeProvider";
+
 export type InputProps = TextInputProps & {
   defHeight?: boolean;
   errorMessage?: string;
@@ -17,6 +19,8 @@ export function Input({
   ...rest
 }: InputProps) {
   const invalid = !!errorMessage;
+  const { fonts } = useAppTheme();
+
   return (
     <Flex width={"100%"} style={containerStyle}>
       <TextInput
@@ -26,6 +30,8 @@ export function Input({
         mode="outlined"
         style={{
           height: defHeight ? 56 : undefined,
+          color: '#767873',
+          ...fonts.bodyMedium,
           ...rest.style as object,
         }}
         outlineStyle={{

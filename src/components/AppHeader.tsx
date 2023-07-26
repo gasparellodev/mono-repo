@@ -26,7 +26,7 @@ export function AppHeader({ title }: Props) {
       direction="row"
       backgroundColor={colors.background}
       paddingX={18}
-      paddingY={16}
+      paddingY={20}
       justify="space-between"
       align="center"
     >

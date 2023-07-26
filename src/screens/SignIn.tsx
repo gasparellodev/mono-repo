@@ -65,7 +65,6 @@ export function SignIn() {
 
   return (
     <Flex flex={1} backgroundColor={colors.surface}>
-      <SafeAreaView style={{ flex: 1 }}>
         <VStack>
           <HeaderAuthPage title="Acessar Eu Jogo" subTitle="Começar" />
           <VStack style={{ paddingHorizontal: 24, paddingTop: 16 }}>
@@ -140,7 +139,6 @@ export function SignIn() {
             </TouchableRipple>
           </VStack>
         </VStack>
-      </SafeAreaView>
     </Flex>
   );
 }

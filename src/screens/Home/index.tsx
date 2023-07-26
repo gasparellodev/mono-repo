@@ -34,8 +34,7 @@ export function Home() {
   }
 
   return (
-    <Flex flex={1}>
-      <SafeAreaView>
+    <Flex flex={1} style={{backgroundColor: '#F9FAF3'}}>
         <VStack>
           <UserLocation />
           <FilterGroup
@@ -46,7 +45,7 @@ export function Home() {
             orderList={HomeListOrderType}
           />
           {isGranted ? (
-            <>
+            <View style={{backgroundColor: '#F9FAF3'}}>
               <Text
                 style={{
                   textAlign: "left",
@@ -74,16 +73,16 @@ export function Home() {
                 Arenas mais próxima de você
               </Text>
               <NearbyArenasList nearbyArenas={nearbyArenas} />
-            </>
+            </View>
           ) : (
-            <View>
+            <View style={{paddingHorizontal: 12, backgroundColor: '#F9FAF3'}}>
               <Text
                 style={{
                   textAlign: "center",
                   padding: 24,
                   fontSize: 18,
                   fontWeight: "bold",
-                  color: "#F0F6E9",
+                  color: "#37474F",
                 }}
               >
                 Autorizar localização para ver arenas próximas
@@ -94,7 +93,6 @@ export function Home() {
             </View>
           )}
         </VStack>
-      </SafeAreaView>
     </Flex>
   );
 }

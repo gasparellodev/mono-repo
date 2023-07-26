@@ -18,6 +18,7 @@ export function BackHeader() {
           height: "100%",
           paddingHorizontal: 16,
           justifyContent: "center",
+          paddingTop: 12
         }}
       >
         <Flex direction="row" align="center" gap={8}>

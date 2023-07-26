@@ -15,8 +15,6 @@ export function Notifications() {
 
     return (
         <Flex flex={1} backgroundColor={colors.background}>
-            <SafeAreaView>
-
             <AppHeader title="Notificações" />
                 <VStack
                     style={{
@@ -45,7 +43,6 @@ export function Notifications() {
                     </Text>
                 </VStack>
 
-            </SafeAreaView>
         </Flex>
     )
 }
