@@ -1,8 +1,21 @@
 import { toast } from "@backpackapp-io/react-native-toast";
+import { AuthIntegration } from "@services/integrations/AuthIntegration";
+import { AppError } from "@utils/AppError";
+import { getMessage } from "@utils/GetMessage";
 import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
+import { useAuth } from "./useAuth";
+
+export type Image = {
+  uri: string;
+  name: string;
+  type: string;
+};
 
 export function useImagePicker() {
+  const { me } = useAuth();
+  const authIntegration = new AuthIntegration();
+
   const [pickedImagePath, setPickedImagePath] = useState("");
 
   const showImagePicker = async () => {
@@ -22,6 +35,37 @@ export function useImagePicker() {
     if (!result.canceled) {
       const [photo] = result.assets;
       setPickedImagePath(photo.uri);
+
+      await uploadImage({
+        uri: photo.uri,
+        name: photo.fileName ?? `image_${Date.now()}.jpg`,
+        type: photo.type ?? "image/jpeg",
+      });
+
+      await me();
+    }
+  };
+
+  const uploadImage = async (pickedImage: {
+    uri: string;
+    name: string;
+    type: string;
+  }) => {
+    if (!pickedImage.uri) {
+      return;
+    }
+
+    try {
+      await authIntegration.changeAvatar({
+        avatar: pickedImage,
+      });
+    } catch (error) {
+      const isAppError = error instanceof AppError;
+      const title = isAppError
+        ? getMessage(error.message, "pt")
+        : "Não foi atualizar foto. Tente novamente mais tarde";
+
+      toast.error(title);
     }
   };
 
