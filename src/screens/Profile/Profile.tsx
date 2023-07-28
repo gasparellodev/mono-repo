@@ -9,6 +9,8 @@ import { Switch, TouchableOpacity, View } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ProfileHeader } from "./ProfileHeader";
+import { sportMapper } from "@utils/MapSportEnum";
+import { AvailableSport } from "../../enums/available-sport.enum";
 
 export function Profile() {
   const { colors } = useTheme();
@@ -69,7 +71,7 @@ export function Profile() {
                 color: colors.onBackground,
               }}
             >
-              Joga - {user.favorite_sport}
+              Joga - {sportMapper(user.favorite_sport as AvailableSport)}
             </Text>
           </Flex>
           <TouchableOpacity

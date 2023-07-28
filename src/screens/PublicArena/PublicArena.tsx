@@ -11,7 +11,7 @@ import { PublicArenaDay } from "./PublicArenaDay";
 import { AppNavigationRoutesProps, AppRoutes } from "@routes/app.routes";
 import dayjs from "dayjs";
 import { AppHeader } from "@components/AppHeader";
-import { AvailableSport } from "../../enums/available-sport.enum";
+import { sportMapper } from "@utils/MapSportEnum";
 
 function getUpcomingDays(baseDay: Date) {
   const baseDate = dayjs(baseDay);
@@ -60,32 +60,9 @@ export function PublicArena() {
       (time) => time.hour.toString().padStart(2, "0") + ":00"
     );
 
-    const mappedSport = () => {
-      switch (court.sport) {
-        case AvailableSport.BeachTennis:
-          return "Beach Tennis";
-        case AvailableSport.BasketballHall:
-          return "Basquete em Quadra";
-        case AvailableSport.FootVolley:
-          return "Futevôlei";
-        case AvailableSport.FutsalHall:
-          return "Futsal em Quadra";
-        case AvailableSport.HandballHall:
-          return "Handebol em Quadra";
-        case AvailableSport.Volleyball:
-          return "Vôlei";
-        case AvailableSport.SocietySynthetic:
-          return "Futebol Society em Gramado Sintético";
-        case AvailableSport.Tennis:
-          return "Tênis";
-        default:
-          return "Esporte Indisponível";
-      }
-    };
-
     return {
       ...court,
-      sport: mappedSport(),
+      sport: sportMapper(court.sport),
       availableTimes,
     };
   });
